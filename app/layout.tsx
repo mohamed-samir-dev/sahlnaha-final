@@ -18,8 +18,8 @@ async function getCompany() {
 export async function generateMetadata(): Promise<Metadata> {
   const c = await getCompany();
 
-  const siteName = c.nameAr || "مؤسسة تبارك التقنية الذكية";
-  const description = c.details || "مؤسسة تبارك التقنية الذكية - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";
+  const siteName = c.nameAr || "مؤسسة سهلناها التقنية";
+  const description = c.details || "مؤسسة سهلناها التقنية - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";
 
   const logoUrl = c.logo
     ? (c.logo.startsWith("http") ? c.logo : `${SITE_URL}/api/tabarak${c.logo}`)
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: [
       siteName,
       c.nameEn || "Tabarak Tech",
-      "تبارك", "تبارك التقنية", "أقساط", "جوالات", "لابتوب", "أجهزة إلكترونية",
+      "سهلناها", "سهلناها التقنية", "أقساط", "جوالات", "لابتوب", "أجهزة إلكترونية",
       "سامسونج", "آبل", "أيفون", "شاومي",
       "السعودية", "الرياض", "جدة",
     ],
