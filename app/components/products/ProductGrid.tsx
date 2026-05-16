@@ -65,37 +65,8 @@ const categoryPageMap: Record<string, string> = {
   "العاب": "/games/ps5-games",
 };
 
-function parseStorage(s?: string): number {
-  if (!s) return 999;
-  const n = parseFloat(s);
-  if (isNaN(n)) return 999;
-  if (/tb|تيرا/i.test(s)) return n * 1024;
-  return n;
-}
-
-const orangeFirstCategories = ["ابل ايفون 17 برو ماكس", "ابل ايفون 17 برو"];
-
-function colorOrder(color: string, isOrangeFirst: boolean): number {
-  if (isOrangeFirst && /برتقالي|orange/i.test(color)) return -1;
-  return 0;
-}
-
 function CategoryRow({ category, items, isFirst }: { category: string; items: Product[]; isFirst?: boolean }) {
-  const isOrangeFirst = orangeFirstCategories.includes(category);
-  // build color rank: orange first (for specific categories), then alphabetical
-  const colors = [...new Set(items.map((p) => p.color || ""))];
-  colors.sort((a, b) => {
-    const ao = colorOrder(a, isOrangeFirst), bo = colorOrder(b, isOrangeFirst);
-    if (ao !== bo) return ao - bo;
-    return a.localeCompare(b);
-  });
-  const colorRank = new Map(colors.map((c, i) => [c, i]));
-  // sort: storage ascending → color rank
-  const visible = [...items].sort((a, b) => {
-    const sa = parseStorage(a.storage), sb = parseStorage(b.storage);
-    if (sa !== sb) return sa - sb;
-    return (colorRank.get(a.color || "") ?? 99) - (colorRank.get(b.color || "") ?? 99);
-  }).slice(0, LIMIT);
+  const visible = items.slice(0, LIMIT);
   const href = categoryPageMap[category] ?? categoryPageMap[category.toLowerCase()] ?? `/search?q=${encodeURIComponent(category)}`;
 
   return (

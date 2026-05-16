@@ -27,6 +27,10 @@ body {
   font-family: 'Cairo', sans-serif;
 }
 
+body.home-page {
+  background: transparent;
+}
+
 body.print-page,
 body.contract-page {
   background: #ffffff !important;

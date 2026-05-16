@@ -81,11 +81,11 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             )}
           </div>
 
-          {/* Discount Badge */}
-          {discountPercent > 0 && (
+          {/* Storage Badge */}
+          {product.storage && (
             <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3">
-              <span className="relative flex items-center gap-0.5 bg-gradient-to-l from-[#06399B] to-[#3258B1] text-white text-[10px] sm:text-[11px] font-bold px-2.5 py-1.5 rounded-lg shadow-[0_3px_12px_rgba(6,57,155,0.3)]">
-                {discountPercent}%-
+              <span className="text-[10px] sm:text-[11px] font-bold text-[#06399B] bg-white/90 backdrop-blur-sm border border-[#D9E4F5] px-2.5 py-1.5 rounded-lg shadow-sm">
+                {product.storage}
               </span>
             </div>
           )}
@@ -128,7 +128,7 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             </div>
           )}
 
-          {/* Delivery & Warranty Tags */}
+          {/* Delivery & Warranty Tags */
           {(freeDelivery || warrantyYears > 0) && (
             <div className="flex items-center gap-1.5 flex-wrap">
               {freeDelivery && (
