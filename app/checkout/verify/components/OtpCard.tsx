@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   IoShieldCheckmarkOutline,
+  IoKeyOutline,
   IoTimeOutline,
   IoRefreshOutline,
   IoArrowBack,
@@ -13,7 +14,7 @@ import {
 interface OtpCardProps {
   otp: string;
   setOtp: (v: string) => void;
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef: RefObject<HTMLInputElement | null>;
   codeError: boolean;
   setCodeError: (v: boolean) => void;
   lengthError: boolean;
@@ -39,7 +40,19 @@ export default function OtpCard({
       transition={{ delay: 0.15, type: "spring", stiffness: 120 }}
       className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#225EFF]/10 shadow-[0_4px_20px_rgba(34,94,255,0.07)] overflow-hidden"
     >
-      <div className="p-5 space-y-4">
+      <div className="p-6 space-y-5">
+
+        {/* Icon + Title */}
+        <div className="flex flex-col items-center gap-3 pt-1">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#225EFF]/10 to-[#7FA8FF]/10 border border-[#225EFF]/15 flex items-center justify-center">
+            <IoKeyOutline size={26} className="text-[#225EFF]" />
+          </div>
+          <div className="text-center">
+            <p className="text-base font-black text-gray-800">رمز التحقق OTP</p>
+            <p className="text-xs text-gray-400 font-medium mt-0.5">أدخل الرمز المرسل إلى هاتفك</p>
+          </div>
+        </div>
+
         {/* Info */}
         <div className="flex items-center gap-2 bg-amber-50 border border-amber-100 rounded-xl px-4 py-3">
           <IoTimeOutline size={15} className="text-amber-400 shrink-0" />
@@ -55,14 +68,14 @@ export default function OtpCard({
               type="text"
               inputMode="numeric"
               maxLength={6}
-              placeholder="أدخل الرمز"
+              placeholder="• • • • • •"
               value={otp}
               onChange={(e) => {
                 setOtp(e.target.value.replace(/\D/g, "").slice(0, 6));
                 setCodeError(false);
                 setLengthError(false);
               }}
-              className={`w-full h-13 text-center text-xl font-extrabold rounded-xl border-2 outline-none transition-all duration-200 tracking-[0.3em] ${
+              className={`w-full py-4 text-center text-2xl font-extrabold rounded-xl border-2 outline-none transition-all duration-200 tracking-[0.4em] ${
                 codeError
                   ? "border-red-300 bg-red-50/50 text-red-500"
                   : otp
@@ -112,7 +125,7 @@ export default function OtpCard({
           </motion.button>
 
           <div className="bg-gray-50/80 rounded-xl p-4 border border-gray-100 flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-sm">
+            <div className="flex items-center gap-1.5">
               <span className="text-gray-400 text-xs font-medium">لم يصلك الرمز؟</span>
               <button
                 type="button"
