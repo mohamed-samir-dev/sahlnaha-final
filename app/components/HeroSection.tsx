@@ -67,8 +67,8 @@ export default function HeroSection() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="max-w-[220px] sm:max-w-[280px] md:max-w-sm lg:max-w-md"
-              style={{ fontFamily: "'Tajawal', sans-serif" }}
+              className="max-w-[300px] sm:max-w-[380px] md:max-w-lg lg:max-w-xl"
+              style={{ fontFamily: "'Cairo', sans-serif" }}
             >
               {/* Badge */}
               <motion.div
