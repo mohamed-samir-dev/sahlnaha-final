@@ -87,7 +87,7 @@ export default function CartItem({ product, qty, index, onUpdateQty, onRemove }:
       {/* Delete */}
       <button
         onClick={() => onRemove(product._id)}
-        className="absolute top-3 left-3 w-7 h-7 rounded-full bg-red-50 border border-red-100 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-red-100 hover:scale-110 transition-all duration-200"
+        className="absolute top-3 left-3 w-7 h-7 rounded-full bg-red-50 border border-red-100 flex items-center justify-center opacity-100 lg:opacity-0 lg:group-hover:opacity-100 hover:bg-red-100 hover:scale-110 transition-all duration-200"
       >
         <IoTrashOutline size={13} className="text-red-400" />
       </button>

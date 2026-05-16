@@ -21,7 +21,7 @@ export default function CartPage() {
   const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState<"items" | "form">("items");
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { setMounted(true); window.scrollTo(0, 0); }, []);
 
   const total = mounted ? totalPrice() : 0;
   const count = mounted ? totalItems() : 0;
