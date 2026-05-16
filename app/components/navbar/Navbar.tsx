@@ -79,7 +79,7 @@ export default function Navbar() {
   return (
     <nav
       className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "navbar-scrolled" : ""}`}
-      style={{ background: "linear-gradient(135deg, #06399B 0%, #02329E 100%)" }}
+      style={{ background: "#ffffff" }}
       dir="rtl"
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-5">
@@ -88,7 +88,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <button
               aria-label="القائمة"
-              className="lg:hidden p-2 text-[#D9E4F5] hover:text-white rounded-xl hover:bg-white/10 transition-all duration-200"
+              className="lg:hidden p-2 text-[#06399B] hover:text-[#02329E] rounded-xl hover:bg-gray-100 transition-all duration-200"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? <CloseIcon /> : <MenuIcon />}
@@ -102,7 +102,7 @@ export default function Navbar() {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  className="h-9 sm:h-11 lg:h-14 w-auto brightness-0 invert"
+                  className="h-12 sm:h-11 lg:h-14 w-auto"
                   priority
                   loading="eager"
                 />
@@ -119,7 +119,7 @@ export default function Navbar() {
           <div className="flex items-center gap-1 sm:gap-2">
             <button
               aria-label="بحث"
-              className="p-2 text-[#D9E4F5] hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200"
+              className="p-2 text-[#06399B] hover:text-[#02329E] hover:bg-gray-100 rounded-xl transition-all duration-200"
               onClick={() => setSearchOpen((v) => !v)}
             >
               <SearchIcon />
@@ -127,7 +127,7 @@ export default function Navbar() {
             <Link
               href="/cart"
               aria-label="السلة"
-              className="p-2 text-[#D9E4F5] hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 relative"
+              className="p-2 text-[#06399B] hover:text-[#02329E] hover:bg-gray-100 rounded-xl transition-all duration-200 relative"
             >
               <CartIcon />
               {mounted && itemCount > 0 && (
@@ -142,7 +142,7 @@ export default function Navbar() {
 
       {/* Search Bar */}
       {searchOpen && (
-        <div ref={searchWrapRef} className="border-t border-white/10 px-4 py-3 relative" dir="rtl">
+        <div ref={searchWrapRef} className="border-t border-gray-200 px-4 py-3 relative" dir="rtl">
           <div className="max-w-2xl mx-auto flex gap-2">
             <input
               ref={searchInputRef}
@@ -150,11 +150,11 @@ export default function Navbar() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="ابحث عن منتج..."
-              className="flex-1 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/50 outline-none focus:border-[#D9E4F5] focus:bg-white/15 transition-all"
+              className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#06399B] transition-all"
             />
             {searching && (
               <div className="absolute left-6 top-1/2 -translate-y-1/2">
-                <div className="w-4 h-4 border-2 border-[#D9E4F5] border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-[#06399B] border-t-transparent rounded-full animate-spin" />
               </div>
             )}
           </div>
@@ -184,7 +184,7 @@ export default function Navbar() {
           )}
 
           {!searching && searchQuery.trim() && results.length === 0 && (
-            <p className="text-center text-sm text-white/50 py-3">لا توجد نتائج</p>
+            <p className="text-center text-sm text-gray-400 py-3">لا توجد نتائج</p>
           )}
         </div>
       )}

@@ -151,19 +151,14 @@ export default function ProductCard({ product, priority = false }: { product: Pr
             {hasDiscount ? (
               <div className="flex flex-col gap-0.5">
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-base sm:text-lg md:text-xl font-extrabold text-[#06399B]">{fmt(salePrice)}</span>
+                  <span className="text-lg sm:text-xl md:text-2xl font-extrabold text-[#06399B]">{fmt(salePrice)}</span>
                   <span className="text-[10px] sm:text-xs text-[#476CB7] font-medium">ر.س</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] sm:text-xs text-gray-400 line-through">{fmt(originalPrice)}</span>
-                  <span className="text-[9px] sm:text-[10px] font-bold text-white bg-gradient-to-l from-[#06399B] to-[#3258B1] px-1.5 py-0.5 rounded">
-                    وفّر {fmt(originalPrice - salePrice!)}
-                  </span>
+                  <span className="text-[10px] sm:text-xs text-gray-400 line-through mr-1">{fmt(originalPrice)}</span>
                 </div>
               </div>
             ) : (
               <div className="flex items-baseline gap-1.5">
-                <span className="text-base sm:text-lg md:text-xl font-extrabold text-[#06399B]">{fmt(originalPrice)}</span>
+                <span className="text-lg sm:text-xl md:text-2xl font-extrabold text-[#06399B]">{fmt(originalPrice)}</span>
                 <span className="text-[10px] sm:text-xs text-[#476CB7] font-medium">ر.س</span>
               </div>
             )}

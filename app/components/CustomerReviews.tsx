@@ -1,9 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Keyboard, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
+import { motion, AnimatePresence } from "framer-motion";
+import { Star, Quote, ChevronLeft, ChevronRight, X, Send } from "lucide-react";
 
 interface Review {
   _id: string;
@@ -14,16 +12,44 @@ interface Review {
   createdAt: string;
 }
 
+function StarRating({ rating, size = 16 }: { rating: number; size?: number }) {
+  return (
+    <div className="flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((s) => (
+        <Star
+          key={s}
+          size={size}
+          className={s <= rating ? "text-yellow-400 fill-yellow-400" : "text-gray-200 fill-gray-200"}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Avatar({ name, gender }: { name: string; gender: string }) {
+  const isFemale = gender === "female";
+  return (
+    <div
+      className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 ${
+        isFemale ? "bg-gradient-to-br from-pink-400 to-rose-500" : "bg-gradient-to-br from-[#06399B] to-[#1a5fd4]"
+      }`}
+    >
+      {name.trim().charAt(0).toUpperCase()}
+    </div>
+  );
+}
+
 export default function CustomerReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [current, setCurrent] = useState(0);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: "", comment: "", rating: 5 });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [selected, setSelected] = useState<Review | null>(null);
 
   useEffect(() => {
-    fetch(`/api/reviews`)
+    fetch("/api/reviews")
       .then((r) => r.json())
       .then((data) => Array.isArray(data) && setReviews(data))
       .catch(() => {});
@@ -34,7 +60,7 @@ export default function CustomerReviews() {
     if (!form.name.trim() || !form.comment.trim()) return;
     setSubmitting(true);
     try {
-      await fetch(`/api/reviews`, {
+      await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -46,149 +72,212 @@ export default function CustomerReviews() {
     setSubmitting(false);
   }
 
-  const avatarGradient = (gender: string) =>
-    gender === "female"
-      ? "from-pink-400 to-rose-500"
-      : "from-purple-500 to-indigo-500";
+  const perPage = 3;
+  const totalPages = Math.ceil(reviews.length / perPage);
+  const visible = reviews.slice(current * perPage, current * perPage + perPage);
 
   return (
-    <section className="w-full py-6" dir="rtl">
-    <div className="max-w-6xl mx-auto px-3 sm:px-4">
-      <div className="flex items-center gap-2 sm:gap-3 mb-6">
-        <div className="flex-1 h-px bg-[#1F6F8B]/20" />
-        <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[#0F4C6E] whitespace-nowrap px-2 sm:px-3">
-          آراء العملاء
-        </h2>
-        <div className="flex-1 h-px bg-[#1F6F8B]/20" />
-      </div>
+    <section className="w-full py-14 bg-gradient-to-b from-white to-[#f0f5ff]" dir="rtl" style={{ fontFamily: "'Cairo', sans-serif" }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
-      {reviews.length > 0 ? (
-        <div className="mb-10">
-          <Swiper
-            modules={[Autoplay, Keyboard, Pagination]}
-            spaceBetween={20}
-            slidesPerView={1}
-            breakpoints={{
-              640: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-            }}
-            autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-            keyboard={{ enabled: true }}
-            pagination={{ clickable: true }}
-            loop={reviews.length > 3}
-            className="pb-10!"
-          >
-            {reviews.map((r) => (
-              <SwiperSlide key={r._id}>
-                <div
-                  onClick={() => setSelectedReview(r)}
-                  className="relative bg-white/80 backdrop-blur-sm rounded-2xl shadow-md border border-white/60 p-5 flex flex-col gap-3 hover:shadow-lg hover:bg-white transition-all duration-200 h-full cursor-pointer"
-                >
-                  <div className="absolute top-4 left-4 text-[#E6F2F8] text-5xl font-serif leading-none select-none">❝</div>
-                  <div className="flex gap-0.5">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <span key={s} className={`text-lg ${s <= r.rating ? "text-yellow-400" : "text-gray-200"}`}>★</span>
-                    ))}
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed flex-1 relative z-10 line-clamp-3">{r.comment}</p>
-                  {r.comment.length > 120 && (
-                    <span className="text-[#1F6F8B] text-xs font-medium">اضغط لقراءة المزيد...</span>
-                  )}
-                  <div className="h-px bg-gray-100" />
-                  <div className="flex items-center gap-3">
-                    <div className={`w-9 h-9 rounded-full bg-linear-to-br ${avatarGradient(r.gender)} flex items-center justify-center text-white font-bold text-sm shrink-0`}>
-                      {r.name.trim().charAt(0).toUpperCase()}
-                    </div>
-                    <span className="font-semibold text-gray-800 text-sm">{r.name}</span>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      ) : (
-        <p className="text-center text-gray-400 text-sm mb-6">لا توجد آراء بعد، كن أول من يعلق!</p>
-      )}
-
-      {selectedReview && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
-          onClick={() => setSelectedReview(null)}
-        >
-          <div
-            className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full flex flex-col gap-4 relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedReview(null)}
-              className="absolute top-3 left-3 text-gray-400 hover:text-gray-600 text-xl leading-none"
-            >✕</button>
-            <div className="flex gap-0.5">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <span key={s} className={`text-xl ${s <= selectedReview.rating ? "text-yellow-400" : "text-gray-200"}`}>★</span>
-              ))}
-            </div>
-            <p className="text-gray-700 text-sm leading-relaxed">{selectedReview.comment}</p>
-            <div className="h-px bg-gray-100" />
-            <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-full bg-linear-to-br ${avatarGradient(selectedReview.gender)} flex items-center justify-center text-white font-bold shrink-0`}>
-                {selectedReview.name.trim().charAt(0).toUpperCase()}
-              </div>
-              <span className="font-semibold text-gray-800">{selectedReview.name}</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="flex items-center gap-3">
-        <div className="flex-1 h-px bg-[#1F6F8B]/15" />
-        {submitted ? (
-          <span className="text-xs sm:text-sm text-[#5FA32E] font-semibold px-3 py-1.5 rounded-full border border-[#7CC043] bg-[#f0f9e8]">
-            ✓ تم إرسال تعليقك وسيظهر بعد المراجعة
+        {/* Header */}
+        <div className="text-center mb-10">
+          <span className="inline-block bg-[#06399B]/10 text-[#06399B] text-xs font-bold px-4 py-1.5 rounded-full mb-3 tracking-wide">
+            ماذا يقول عملاؤنا
           </span>
+          <h2 className="text-2xl sm:text-3xl font-black text-[#06399B]">آراء العملاء</h2>
+          <div className="flex items-center justify-center gap-2 mt-3">
+            <div className="h-1 w-10 rounded-full bg-[#7CC043]" />
+            <div className="h-1 w-4 rounded-full bg-[#06399B]/30" />
+          </div>
+        </div>
+
+        {reviews.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <AnimatePresence mode="wait">
+                {visible.map((r, i) => (
+                  <motion.div
+                    key={r._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3, delay: i * 0.07 }}
+                    onClick={() => setSelected(r)}
+                    className="relative bg-white rounded-2xl p-5 shadow-sm border border-[#06399B]/8 hover:shadow-md hover:border-[#06399B]/20 transition-all duration-200 cursor-pointer flex flex-col gap-3 group"
+                  >
+                    {/* Quote icon */}
+                    <div className="absolute top-4 left-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                      <Quote size={36} className="text-[#06399B] fill-[#06399B]" />
+                    </div>
+
+                    <StarRating rating={r.rating} />
+
+                    <p className="text-gray-600 text-sm leading-relaxed flex-1 line-clamp-3 relative z-10">
+                      {r.comment}
+                    </p>
+
+                    {r.comment.length > 120 && (
+                      <span className="text-[#06399B] text-xs font-semibold">اقرأ المزيد ←</span>
+                    )}
+
+                    <div className="h-px bg-gradient-to-r from-[#06399B]/10 via-[#7CC043]/20 to-transparent" />
+
+                    <div className="flex items-center gap-3">
+                      <Avatar name={r.name} gender={r.gender} />
+                      <div>
+                        <p className="font-bold text-gray-800 text-sm">{r.name}</p>
+                        <p className="text-gray-400 text-xs">
+                          {new Date(r.createdAt).toLocaleDateString("ar-EG", { year: "numeric", month: "short" })}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-3 mt-8">
+                <button
+                  onClick={() => setCurrent((p) => Math.max(0, p - 1))}
+                  disabled={current === 0}
+                  className="w-9 h-9 rounded-full border border-[#06399B]/20 flex items-center justify-center text-[#06399B] hover:bg-[#06399B] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  <ChevronRight size={16} />
+                </button>
+                <div className="flex gap-1.5">
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrent(i)}
+                      className={`h-2 rounded-full transition-all duration-300 ${i === current ? "w-6 bg-[#06399B]" : "w-2 bg-[#06399B]/20"}`}
+                    />
+                  ))}
+                </div>
+                <button
+                  onClick={() => setCurrent((p) => Math.min(totalPages - 1, p + 1))}
+                  disabled={current === totalPages - 1}
+                  className="w-9 h-9 rounded-full border border-[#06399B]/20 flex items-center justify-center text-[#06399B] hover:bg-[#06399B] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+              </div>
+            )}
+          </>
         ) : (
-          <button
-            onClick={() => setShowForm((v) => !v)}
-            className="text-xs sm:text-sm font-semibold text-[#1F6F8B] hover:text-[#0F4C6E] whitespace-nowrap px-3 py-1.5 rounded-full border border-[#1F6F8B] hover:bg-[#E6F2F8] transition-colors"
-          >
-            {showForm ? "إلغاء" : "+ أضف تعليقك"}
-          </button>
+          <p className="text-center text-gray-400 text-sm mb-6">لا توجد آراء بعد، كن أول من يعلق!</p>
         )}
-        <div className="flex-1 h-px bg-[#1F6F8B]/15" />
+
+        {/* Add Review Button */}
+        <div className="flex justify-center mt-8">
+          {submitted ? (
+            <div className="flex items-center gap-2 text-sm text-[#7CC043] font-semibold bg-[#f0f9e8] border border-[#7CC043]/30 px-5 py-2.5 rounded-full">
+              <span className="text-base">✓</span> تم إرسال تعليقك وسيظهر بعد المراجعة
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowForm((v) => !v)}
+              className="flex items-center gap-2 bg-[#06399B] hover:bg-[#052d7a] text-white text-sm font-bold px-6 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all"
+            >
+              {showForm ? <X size={15} /> : <Star size={15} className="fill-white" />}
+              {showForm ? "إلغاء" : "أضف تقييمك"}
+            </button>
+          )}
+        </div>
+
+        {/* Form */}
+        <AnimatePresence>
+          {showForm && (
+            <motion.form
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              onSubmit={handleSubmit}
+              className="mt-5 max-w-lg mx-auto bg-white rounded-2xl border border-[#06399B]/10 shadow-md p-5 flex flex-col gap-4"
+            >
+              <input
+                type="text"
+                placeholder="اسمك"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#06399B] transition-colors"
+                required
+              />
+              <textarea
+                placeholder="اكتب تعليقك..."
+                value={form.comment}
+                onChange={(e) => setForm({ ...form, comment: e.target.value })}
+                rows={3}
+                className="border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#06399B] transition-colors resize-none"
+                required
+              />
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-500 font-medium">تقييمك:</span>
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <button key={s} type="button" onClick={() => setForm({ ...form, rating: s })}>
+                    <Star
+                      size={22}
+                      className={s <= form.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300 fill-gray-300"}
+                    />
+                  </button>
+                ))}
+              </div>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="flex items-center justify-center gap-2 bg-[#7CC043] hover:bg-[#5FA32E] text-white text-sm font-bold py-2.5 rounded-xl transition-colors disabled:opacity-60"
+              >
+                <Send size={14} />
+                {submitting ? "جاري الإرسال..." : "إرسال التعليق"}
+              </button>
+            </motion.form>
+          )}
+        </AnimatePresence>
       </div>
 
-      {showForm && (
-        <form onSubmit={handleSubmit} className="mt-4 bg-white/80 backdrop-blur-sm rounded-xl border border-white/60 shadow-sm p-4 flex flex-col gap-3">
-          <input
-            type="text"
-            placeholder="اسمك"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#7CC043]"
-            required
-          />
-          <textarea
-            placeholder="اكتب تعليقك..."
-            value={form.comment}
-            onChange={(e) => setForm({ ...form, comment: e.target.value })}
-            rows={3}
-            className="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-[#7CC043] resize-none"
-            required
-          />
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-600">التقييم:</span>
-            {[1, 2, 3, 4, 5].map((s) => (
-              <button key={s} type="button" onClick={() => setForm({ ...form, rating: s })}
-                className={`text-xl ${s <= form.rating ? "text-yellow-400" : "text-gray-300"}`}>★</button>
-            ))}
-          </div>
-          <button type="submit" disabled={submitting}
-            className="bg-[#7CC043] hover:bg-[#5FA32E] text-white text-sm font-semibold py-2 rounded-lg transition-colors disabled:opacity-60">
-            {submitting ? "جاري الإرسال..." : "إرسال التعليق"}
-          </button>
-        </form>
-      )}
-    </div>
+      {/* Modal */}
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+            onClick={() => setSelected(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full flex flex-col gap-4 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setSelected(null)}
+                className="absolute top-4 left-4 w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-500 transition-colors"
+              >
+                <X size={14} />
+              </button>
+              <StarRating rating={selected.rating} size={18} />
+              <p className="text-gray-700 text-sm leading-relaxed">{selected.comment}</p>
+              <div className="h-px bg-gray-100" />
+              <div className="flex items-center gap-3">
+                <Avatar name={selected.name} gender={selected.gender} />
+                <div>
+                  <p className="font-bold text-gray-800">{selected.name}</p>
+                  <p className="text-gray-400 text-xs">
+                    {new Date(selected.createdAt).toLocaleDateString("ar-EG", { year: "numeric", month: "long", day: "numeric" })}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

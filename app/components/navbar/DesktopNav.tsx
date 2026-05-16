@@ -16,7 +16,7 @@ export default function DesktopNav({ items }: DesktopNavProps) {
         <div key={item.label} className="relative group">
           <Link
             href={item.href}
-            className="flex items-center gap-1 px-2.5 xl:px-3.5 py-2 text-[13px] xl:text-sm font-medium text-white/85 hover:text-white rounded-lg hover:bg-white/10 transition-all duration-200 whitespace-nowrap"
+            className="flex items-center gap-1 px-2.5 xl:px-3.5 py-2 text-[13px] xl:text-sm font-medium text-[#06399B] hover:text-[#02329E] rounded-lg hover:bg-[#D9E4F5]/50 transition-all duration-200 whitespace-nowrap"
           >
             {item.label}
             {(item.children || item.groups) && <ChevronDownIcon />}
