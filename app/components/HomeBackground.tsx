@@ -1,32 +1,8 @@
-"use client";
-import { motion } from "framer-motion";
-
-const blobs = [
-  { size: 600, x: "-8%",  y: "-15%", color: "#225EFF", opacity: 0.28, duration: 14 },
-  { size: 500, x: "68%",  y: "-5%",  color: "#7FA8FF", opacity: 0.25, duration: 18 },
-  { size: 420, x: "40%",  y: "35%",  color: "#AAD6FF", opacity: 0.3,  duration: 12 },
-  { size: 380, x: "-5%",  y: "60%",  color: "#225EFF", opacity: 0.22, duration: 20 },
-  { size: 340, x: "78%",  y: "58%",  color: "#7FA8FF", opacity: 0.26, duration: 16 },
-  { size: 280, x: "30%",  y: "75%",  color: "#AAD6FF", opacity: 0.28, duration: 10 },
-];
-
-const particles = Array.from({ length: 24 }, (_, i) => ({
-  id: i,
-  x: `${(i * 31 + 8) % 92}%`,
-  y: `${(i * 47 + 12) % 88}%`,
-  size: i % 4 === 0 ? 7 : i % 4 === 1 ? 5 : i % 4 === 2 ? 4 : 3,
-  duration: 2.5 + (i % 3),
-  delay: i * 0.25,
-  color: i % 3 === 0 ? "#225EFF" : i % 3 === 1 ? "#7FA8FF" : "#AAD6FF",
-}));
-
 export default function HomeBackground() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-      {/* White base */}
       <div className="absolute inset-0 bg-white" />
 
-      {/* Subtle dot pattern */}
       <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.12 }}>
         <defs>
           <pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -36,7 +12,6 @@ export default function HomeBackground() {
         <rect width="100%" height="100%" fill="url(#dots)" />
       </svg>
 
-      {/* Grid lines */}
       <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.06 }}>
         <defs>
           <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
@@ -46,9 +21,33 @@ export default function HomeBackground() {
         <rect width="100%" height="100%" fill="url(#grid)" />
       </svg>
 
-      {/* Animated blobs */}
-      {blobs.map((b, i) => (
-        <motion.div
+      <style>{`
+        @keyframes blob-move {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          25% { transform: translate(50px, -40px) scale(1.2); }
+          50% { transform: translate(-40px, 50px) scale(0.85); }
+          75% { transform: translate(30px, -25px) scale(1.15); }
+        }
+        @keyframes particle-float {
+          0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.35; }
+          50% { transform: translate(10px, -28px) scale(1.6); opacity: 1; }
+        }
+        @keyframes streak-pulse {
+          0%, 100% { opacity: 0; transform: scaleY(0.5); }
+          50% { opacity: 0.7; transform: scaleY(1.3); }
+        }
+      `}</style>
+
+      {/* Blobs */}
+      {[
+        { size: 600, x: "-8%",  y: "-15%", color: "#225EFF", opacity: 0.28, duration: 14 },
+        { size: 500, x: "68%",  y: "-5%",  color: "#7FA8FF", opacity: 0.25, duration: 18 },
+        { size: 420, x: "40%",  y: "35%",  color: "#AAD6FF", opacity: 0.3,  duration: 12 },
+        { size: 380, x: "-5%",  y: "60%",  color: "#225EFF", opacity: 0.22, duration: 20 },
+        { size: 340, x: "78%",  y: "58%",  color: "#7FA8FF", opacity: 0.26, duration: 16 },
+        { size: 280, x: "30%",  y: "75%",  color: "#AAD6FF", opacity: 0.28, duration: 10 },
+      ].map((b, i) => (
+        <div
           key={i}
           className="absolute rounded-full"
           style={{
@@ -59,22 +58,23 @@ export default function HomeBackground() {
             background: `radial-gradient(circle at 40% 40%, ${b.color} 0%, transparent 65%)`,
             opacity: b.opacity,
             filter: "blur(55px)",
+            animation: `blob-move ${b.duration}s ease-in-out infinite`,
+            willChange: "transform",
           }}
-          animate={{
-            x: [0, 50, -40, 30, 0],
-            y: [0, -40, 50, -25, 0],
-            scale: [1, 1.2, 0.85, 1.15, 1],
-          }}
-          transition={{ duration: b.duration, repeat: Infinity, ease: "easeInOut" }}
         />
       ))}
 
-
-
-      {/* Floating particles */}
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
+      {/* Particles - reduced to 12 */}
+      {Array.from({ length: 12 }, (_, i) => ({
+        x: `${(i * 62 + 8) % 92}%`,
+        y: `${(i * 94 + 12) % 88}%`,
+        size: i % 3 === 0 ? 7 : i % 3 === 1 ? 5 : 3,
+        duration: 2.5 + (i % 3),
+        delay: i * 0.5,
+        color: i % 3 === 0 ? "#225EFF" : i % 3 === 1 ? "#7FA8FF" : "#AAD6FF",
+      })).map((p, i) => (
+        <div
+          key={i}
           className="absolute rounded-full"
           style={{
             width: p.size,
@@ -83,29 +83,20 @@ export default function HomeBackground() {
             top: p.y,
             background: p.color,
             boxShadow: `0 0 ${p.size * 4}px ${p.color}88`,
-          }}
-          animate={{
-            y: [0, -28, 0],
-            x: [0, 10, 0],
-            opacity: [0.35, 1, 0.35],
-            scale: [1, 1.6, 1],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            delay: p.delay,
-            ease: "easeInOut",
+            animation: `particle-float ${p.duration}s ease-in-out infinite`,
+            animationDelay: `${p.delay}s`,
+            willChange: "transform, opacity",
           }}
         />
       ))}
 
-      {/* Diagonal streaks */}
+      {/* Streaks */}
       {[
         { left: "22%", top: "5%",  height: "40%", color: "#225EFF", duration: 3.5, delay: 0 },
         { left: "65%", top: "20%", height: "30%", color: "#7FA8FF", duration: 4.5, delay: 1.5 },
         { left: "45%", top: "55%", height: "25%", color: "#AAD6FF", duration: 3,   delay: 0.8 },
       ].map((s, i) => (
-        <motion.div
+        <div
           key={i}
           className="absolute"
           style={{
@@ -115,9 +106,9 @@ export default function HomeBackground() {
             top: s.top,
             background: `linear-gradient(180deg, transparent, ${s.color}99, transparent)`,
             filter: "blur(1px)",
+            animation: `streak-pulse ${s.duration}s ease-in-out infinite`,
+            animationDelay: `${s.delay}s`,
           }}
-          animate={{ opacity: [0, 0.7, 0], scaleY: [0.5, 1.3, 0.5] }}
-          transition={{ duration: s.duration, repeat: Infinity, delay: s.delay, ease: "easeInOut" }}
         />
       ))}
     </div>
