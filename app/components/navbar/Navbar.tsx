@@ -83,12 +83,12 @@ export default function Navbar() {
       dir="rtl"
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-5">
-        <div className="flex items-center justify-between h-14 sm:h-16 lg:h-[72px]">
-          {/* Right: Hamburger + Logo */}
+        {/* Mobile Row */}
+        <div className="flex lg:hidden items-center justify-between h-14 sm:h-16">
           <div className="flex items-center gap-2">
             <button
               aria-label="القائمة"
-              className="lg:hidden p-2 text-[#06399B] hover:text-[#02329E] rounded-xl hover:bg-gray-100 transition-all duration-200"
+              className="p-2 text-[#06399B] hover:text-[#02329E] rounded-xl hover:bg-gray-100 transition-all duration-200"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? <CloseIcon /> : <MenuIcon />}
@@ -102,21 +102,14 @@ export default function Navbar() {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  className="h-12 sm:h-11 lg:h-14 w-auto"
+                  className="h-12 sm:h-11 w-auto"
                   priority
                   loading="eager"
                 />
               )}
             </Link>
           </div>
-
-          {/* Center: Desktop Nav */}
-          <div className="hidden lg:block">
-            <DesktopNav items={navItems} />
-          </div>
-
-          {/* Left: Icons */}
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-1">
             <button
               aria-label="بحث"
               className="p-2 text-[#06399B] hover:text-[#02329E] hover:bg-gray-100 rounded-xl transition-all duration-200"
@@ -138,12 +131,86 @@ export default function Navbar() {
             </Link>
           </div>
         </div>
+
+        {/* Desktop: Row 1 - Logo + Search + Cart */}
+        <div className="hidden lg:flex items-center justify-between h-[64px] border-b border-gray-100">
+          <Link href="/" className="shrink-0" aria-label="الصفحة الرئيسية">
+            {logo && (
+              <Image
+                src={logo}
+                unoptimized
+                alt="الصفحة الرئيسية"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="h-14 w-auto"
+                priority
+                loading="eager"
+              />
+            )}
+          </Link>
+          <div ref={searchWrapRef} className="flex-1 max-w-xl mx-8 relative">
+            <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus-within:border-[#06399B] transition-all duration-200">
+              <SearchIcon />
+              <input
+                ref={searchInputRef}
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="ابحث عن منتج..."
+                className="flex-1 bg-transparent text-sm text-gray-800 placeholder-gray-400 outline-none"
+              />
+              {searching && <div className="w-4 h-4 border-2 border-[#06399B] border-t-transparent rounded-full animate-spin shrink-0" />}
+            </div>
+            {results.length > 0 && (
+              <ul className="absolute right-0 left-0 bg-white border border-gray-100 rounded-2xl shadow-2xl mt-2 z-50 max-h-72 overflow-y-auto">
+                {results.map((p) => {
+                  const img = p.images?.[0] || p.image;
+                  const price = p.salePrice ?? p.originalPrice ?? p.price ?? 0;
+                  return (
+                    <li key={p._id}>
+                      <Link
+                        href={`/product/${p._id}`}
+                        onClick={() => { setSearchQuery(""); setResults([]); }}
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-[#FBFBFC] transition-colors"
+                      >
+                        {img && <Image src={resolveImg(img)} alt={p.name} width={40} height={40} className="object-contain rounded-lg" unoptimized />}
+                        <span className="flex-1 text-sm text-[#00002F] line-clamp-1 font-medium">{p.name}</span>
+                        <span className="text-sm font-bold text-[#06399B] shrink-0">{price.toLocaleString("en-US")} ر.س</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+            {!searching && searchQuery.trim() && results.length === 0 && (
+              <p className="absolute right-0 left-0 bg-white border border-gray-100 rounded-2xl shadow-2xl mt-2 text-center text-sm text-gray-400 py-3">لا توجد نتائج</p>
+            )}
+          </div>
+          <Link
+            href="/cart"
+            aria-label="السلة"
+            className="p-2 text-[#06399B] hover:text-[#02329E] hover:bg-gray-100 rounded-xl transition-all duration-200 relative"
+          >
+            <CartIcon />
+            {mounted && itemCount > 0 && (
+              <span className="absolute -top-0.5 -left-0.5 bg-[#476CB7] text-white text-[10px] font-bold min-w-[18px] h-[18px] flex items-center justify-center rounded-full px-1 shadow-lg shadow-[#476CB7]/30">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+        </div>
+
+        {/* Desktop: Row 2 - Nav Links */}
+        <div className="hidden lg:flex justify-center">
+          <DesktopNav items={navItems} />
+        </div>
       </div>
 
-      {/* Search Bar */}
+      {/* Search Bar - Mobile Only */}
       {searchOpen && (
-        <div ref={searchWrapRef} className="border-t border-gray-200 px-4 py-3 relative" dir="rtl">
-          <div className="max-w-2xl mx-auto flex gap-2">
+        <div className="lg:hidden border-t border-gray-200 px-4 py-3 relative" dir="rtl">
+          <div className="flex gap-2">
             <input
               ref={searchInputRef}
               type="text"
@@ -158,9 +225,8 @@ export default function Navbar() {
               </div>
             )}
           </div>
-
           {results.length > 0 && (
-            <ul className="absolute right-4 left-4 max-w-2xl mx-auto bg-white border border-gray-100 rounded-2xl shadow-2xl mt-2 z-50 max-h-72 overflow-y-auto">
+            <ul className="absolute right-4 left-4 bg-white border border-gray-100 rounded-2xl shadow-2xl mt-2 z-50 max-h-72 overflow-y-auto">
               {results.map((p) => {
                 const img = p.images?.[0] || p.image;
                 const price = p.salePrice ?? p.originalPrice ?? p.price ?? 0;
@@ -171,9 +237,7 @@ export default function Navbar() {
                       onClick={() => { setSearchOpen(false); setSearchQuery(""); setResults([]); }}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-[#FBFBFC] transition-colors"
                     >
-                      {img && (
-                        <Image src={resolveImg(img)} alt={p.name} width={40} height={40} className="object-contain rounded-lg" unoptimized />
-                      )}
+                      {img && <Image src={resolveImg(img)} alt={p.name} width={40} height={40} className="object-contain rounded-lg" unoptimized />}
                       <span className="flex-1 text-sm text-[#00002F] line-clamp-1 font-medium">{p.name}</span>
                       <span className="text-sm font-bold text-[#06399B] shrink-0">{price.toLocaleString("en-US")} ر.س</span>
                     </Link>
@@ -182,7 +246,6 @@ export default function Navbar() {
               })}
             </ul>
           )}
-
           {!searching && searchQuery.trim() && results.length === 0 && (
             <p className="text-center text-sm text-gray-400 py-3">لا توجد نتائج</p>
           )}

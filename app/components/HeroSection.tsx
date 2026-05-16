@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const slides = [
   {
@@ -39,6 +40,18 @@ export default function HeroSection() {
     <div className="max-w-7xl mx-auto px-3 sm:px-5 mt-4" dir="rtl">
       <section className="relative w-full min-h-fit rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-[0_8px_40px_rgba(6,57,155,0.25)]">
         {/* Background Image */}
+        {/* Preload all images */}
+        {slides.map((slide, i) => (
+          <Image
+            key={slide.image}
+            src={slide.image}
+            alt=""
+            fill
+            priority={i === 0}
+            className="object-cover opacity-0 pointer-events-none"
+          />
+        ))}
+
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -48,11 +61,14 @@ export default function HeroSection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="absolute inset-0"
           >
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${slides[current].image})` }}
+            <Image
+              src={slides[current].image}
+              alt={slides[current].title}
+              fill
+              priority={current === 0}
+              className="object-cover"
+              sizes="100vw"
             />
-
           </motion.div>
         </AnimatePresence>
 
