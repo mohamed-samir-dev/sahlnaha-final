@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FaWhatsapp, FaMobileAlt, FaEnvelope, FaChevronLeft } from "react-icons/fa";
+import { FaWhatsapp, FaMobileAlt, FaEnvelope } from "react-icons/fa";
 
 const API = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -54,46 +54,50 @@ export default async function Footer() {
   ];
 
   return (
-    <footer dir="rtl" className="relative overflow-hidden text-white" style={{ background: "linear-gradient(160deg, #061e2f 0%, #0a3550 40%, #0F4C6E 100%)" }}>
+    <footer dir="rtl" className="relative overflow-hidden text-white mt-16"
+      style={{ background: "linear-gradient(160deg, #04143E 0%, #0a1f5e 35%, #225EFF 100%)" }}>
 
-      {/* top accent line */}
-      <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, #7CC043, #06399B, #7CC043)" }} />
-
-      {/* decorative blobs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #7CC043, transparent 70%)" }} />
-        <div className="absolute -bottom-16 -left-16 w-56 h-56 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #06399B, transparent 70%)" }} />
+      {/* glow blobs */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] opacity-20 blur-3xl rounded-full"
+          style={{ background: "#225EFF" }} />
+        <div className="absolute bottom-0 right-0 w-64 h-64 opacity-10 blur-3xl rounded-full"
+          style={{ background: "#0FF" }} />
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-4 pt-12 pb-8">
+      {/* cyan accent line on top */}
+      <div className="h-[2px] w-full" style={{ background: "linear-gradient(90deg, transparent, #0FF, #7FA8FF, transparent)" }} />
+
+      <div className="relative max-w-6xl mx-auto px-6 pt-12 pb-6">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
 
           {/* من نحن */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="block w-1 h-6 rounded-full" style={{ background: "#7CC043" }} />
-              <h3 className="font-bold text-lg" style={{ color: "#7CC043" }}>من نحن</h3>
-            </div>
-            <p className="text-sm leading-7 text-blue-100/80">
+          <div>
+            <h3 className="font-bold text-base mb-4 tracking-wide" style={{ color: "#AAD6FF" }}>
+              من نحن
+            </h3>
+            <div className="w-8 h-[2px] mb-4 rounded-full" style={{ background: "linear-gradient(90deg, #0FF, #225EFF)" }} />
+            <p className="text-sm leading-7" style={{ color: "#7FA8FF" }}>
               {c.details || "مؤسسة سهلناها التقنية هي اختيارك الأول لشراء أجهزتك بالأقساط داخل السعودية، ضمان موثوق وخدمة محلية."}
             </p>
           </div>
 
           {/* روابط مهمة */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="block w-1 h-6 rounded-full" style={{ background: "#7CC043" }} />
-              <h3 className="font-bold text-lg" style={{ color: "#7CC043" }}>روابط مهمة</h3>
-            </div>
-            <ul className="space-y-2">
+          <div>
+            <h3 className="font-bold text-base mb-4 tracking-wide" style={{ color: "#AAD6FF" }}>
+              روابط مهمة
+            </h3>
+            <div className="w-8 h-[2px] mb-4 rounded-full" style={{ background: "linear-gradient(90deg, #0FF, #225EFF)" }} />
+            <ul className="space-y-3">
               {links.map(({ label, href }) => (
                 <li key={href}>
-                  <Link
-                    href={href}
-                    className="group flex items-center gap-2 text-sm text-blue-100/75 transition-colors hover:text-white"
+                  <Link href={href}
+                    className="text-sm flex items-center gap-2 transition-all duration-200 group"
+                    style={{ color: "#7FA8FF" }}
                   >
-                    <FaChevronLeft size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "#7CC043" }} />
-                    {label}
+                    <span className="w-1 h-1 rounded-full shrink-0 transition-all duration-200 group-hover:w-2"
+                      style={{ background: "#0FF" }} />
+                    <span className="group-hover:text-white transition-colors duration-200">{label}</span>
                   </Link>
                 </li>
               ))}
@@ -101,18 +105,20 @@ export default async function Footer() {
           </div>
 
           {/* تواصل معنا */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="block w-1 h-6 rounded-full" style={{ background: "#7CC043" }} />
-              <h3 className="font-bold text-lg" style={{ color: "#7CC043" }}>تواصل معنا</h3>
-            </div>
-            <ul className="space-y-3">
+          <div>
+            <h3 className="font-bold text-base mb-4 tracking-wide" style={{ color: "#AAD6FF" }}>
+              تواصل معنا
+            </h3>
+            <div className="w-8 h-[2px] mb-4 rounded-full" style={{ background: "linear-gradient(90deg, #0FF, #225EFF)" }} />
+            <ul className="space-y-3 mb-5">
               {c.whatsapp && (
                 <li>
                   <a href={`https://wa.me/${c.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer"
-                    className="flex items-center gap-3 text-sm text-blue-100/75 hover:text-white transition-colors group">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 group-hover:bg-emerald-500/20 transition-colors">
-                      <FaWhatsapp size={15} className="text-emerald-400" />
+                    className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white group"
+                    style={{ color: "#7FA8FF" }}>
+                    <span className="flex items-center justify-center w-7 h-7 rounded-lg"
+                      style={{ background: "rgba(34,94,255,0.3)", border: "1px solid rgba(127,168,255,0.2)" }}>
+                      <FaWhatsapp size={13} style={{ color: "#AAD6FF" }} />
                     </span>
                     <span dir="ltr">{c.whatsapp}</span>
                   </a>
@@ -121,9 +127,11 @@ export default async function Footer() {
               {c.phone && (
                 <li>
                   <a href={`tel:${c.phone}`}
-                    className="flex items-center gap-3 text-sm text-blue-100/75 hover:text-white transition-colors group">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 group-hover:bg-blue-400/20 transition-colors">
-                      <FaMobileAlt size={15} className="text-blue-300" />
+                    className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white group"
+                    style={{ color: "#7FA8FF" }}>
+                    <span className="flex items-center justify-center w-7 h-7 rounded-lg"
+                      style={{ background: "rgba(34,94,255,0.3)", border: "1px solid rgba(127,168,255,0.2)" }}>
+                      <FaMobileAlt size={13} style={{ color: "#AAD6FF" }} />
                     </span>
                     <span dir="ltr">{c.phone}</span>
                   </a>
@@ -132,9 +140,11 @@ export default async function Footer() {
               {c.email && (
                 <li>
                   <a href={`mailto:${c.email}`}
-                    className="flex items-center gap-3 text-sm text-blue-100/75 hover:text-white transition-colors group">
-                    <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/10 group-hover:bg-blue-400/20 transition-colors">
-                      <FaEnvelope size={15} className="text-blue-300" />
+                    className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white group"
+                    style={{ color: "#7FA8FF" }}>
+                    <span className="flex items-center justify-center w-7 h-7 rounded-lg"
+                      style={{ background: "rgba(34,94,255,0.3)", border: "1px solid rgba(127,168,255,0.2)" }}>
+                      <FaEnvelope size={13} style={{ color: "#AAD6FF" }} />
                     </span>
                     <span dir="ltr">{c.email}</span>
                   </a>
@@ -142,30 +152,37 @@ export default async function Footer() {
               )}
             </ul>
 
-            {/* Badges / QR */}
+            {/* badges */}
             {(qrSrc || footerItems.length > 0 || img1 || img2) && (
-              <div className="flex flex-wrap gap-2 pt-1">
-                {qrSrc && (
-                  qrLink
-                    ? <a href={qrLink} target="_blank" rel="noreferrer"><Image src={qrSrc} alt="رمز QR" width={200} height={50} className="h-[46px] w-auto object-contain rounded-lg bg-white p-1" /></a>
-                    : <Image src={qrSrc} alt="رمز QR" width={200} height={50} className="h-[46px] w-auto object-contain rounded-lg bg-white p-1" />
+              <div className="flex flex-wrap gap-2">
+                {qrSrc && (qrLink
+                  ? <a href={qrLink} target="_blank" rel="noreferrer"><Image src={qrSrc} alt="رمز QR" width={200} height={50} className="h-[44px] w-auto object-contain rounded-lg bg-white p-1" /></a>
+                  : <Image src={qrSrc} alt="رمز QR" width={200} height={50} className="h-[44px] w-auto object-contain rounded-lg bg-white p-1" />
                 )}
                 {footerItems.map((item, i) => {
                   const href = getHref(item);
-                  const el = <Image key={i} src={item.image} alt={`شعار شريك ${i + 1}`} width={200} height={50} className="h-[46px] w-auto object-contain rounded-lg" />;
+                  const el = <Image key={i} src={item.image} alt={`شعار شريك ${i + 1}`} width={200} height={50} className="h-[44px] w-auto object-contain rounded-lg" />;
                   return href ? <a key={i} href={href} target="_blank" rel="noreferrer">{el}</a> : <span key={i}>{el}</span>;
                 })}
-                {img1 && (link1 ? <a href={link1} target="_blank" rel="noreferrer"><Image src={img1} alt="وسيلة دفع" width={200} height={50} className="h-[46px] w-auto object-contain rounded-lg" /></a> : <Image src={img1} alt="وسيلة دفع" width={200} height={50} className="h-[46px] w-auto object-contain rounded-lg" />)}
-                {img2 && (link2 ? <a href={link2} target="_blank" rel="noreferrer"><Image src={img2} alt="وسيلة دفع" width={200} height={50} className="h-[46px] w-auto object-contain rounded-lg" /></a> : <Image src={img2} alt="وسيلة دفع" width={200} height={50} className="h-[46px] w-auto object-contain rounded-lg" />)}
+                {img1 && (link1
+                  ? <a href={link1} target="_blank" rel="noreferrer"><Image src={img1} alt="وسيلة دفع" width={200} height={50} className="h-[44px] w-auto object-contain rounded-lg" /></a>
+                  : <Image src={img1} alt="وسيلة دفع" width={200} height={50} className="h-[44px] w-auto object-contain rounded-lg" />
+                )}
+                {img2 && (link2
+                  ? <a href={link2} target="_blank" rel="noreferrer"><Image src={img2} alt="وسيلة دفع" width={200} height={50} className="h-[44px] w-auto object-contain rounded-lg" /></a>
+                  : <Image src={img2} alt="وسيلة دفع" width={200} height={50} className="h-[44px] w-auto object-contain rounded-lg" />
+                )}
               </div>
             )}
           </div>
         </div>
 
         {/* bottom bar */}
-        <div className="mt-10 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-blue-200/60">
+        <div className="mt-10 pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
+          style={{ borderTop: "1px solid rgba(127,168,255,0.15)", color: "#7FA8FF" }}>
           <span>الحقوق محفوظة © 2026 مؤسسة سهلناها التقنية</span>
-          <Image src="/فيزا ماستر مدى.webp" alt="Visa Mastercard Mada" width={100} height={30} className="object-contain" style={{ width: "auto" }} />
+          <Image src="/فيزا ماستر مدى.webp" alt="Visa Mastercard Mada" width={100} height={30}
+            className="object-contain" style={{ width: "auto" }} />
         </div>
       </div>
     </footer>
