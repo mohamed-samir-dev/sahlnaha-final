@@ -88,11 +88,7 @@ function CategoryBannerSlider({ images }: { images: string[] }) {
               transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
               className="absolute inset-0"
             >
-              <motion.div
-                className="w-full h-full"
-                animate={{ scale: [1, 1.03] }}
-                transition={{ duration: AUTO_PLAY_MS / 1000, ease: "linear" }}
-              >
+              <div className="w-full h-full">
                 <Image
                   src={images[current]}
                   alt={`banner ${current + 1}`}
@@ -102,7 +98,7 @@ function CategoryBannerSlider({ images }: { images: string[] }) {
                   sizes="(max-width: 640px) 100vw, 960px"
                   loading={current === 0 ? "eager" : "lazy"}
                 />
-              </motion.div>
+              </div>
             </motion.div>
           </AnimatePresence>
 

@@ -103,13 +103,9 @@ export default function BrowseCategories() {
               </div>
 
               <div className="relative z-10 w-36 h-36 sm:w-40 sm:h-40 rounded-2xl bg-gradient-to-br from-[#D9E4F5]/50 to-[#D9E4F5]/20 flex items-center justify-center overflow-hidden">
-                <motion.div
-                  className="relative w-full h-full"
-                  whileHover={{ scale: 1.1, rotate: 2 }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                >
+                <div className="relative w-full h-full">
                   <Image src={cat.image} alt={cat.name} fill className="object-contain p-4" />
-                </motion.div>
+                </div>
               </div>
 
               <div className="relative z-10 text-center">

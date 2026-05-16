@@ -93,21 +93,7 @@ body.checkout-page {
     box-shadow: 0 4px 15px rgba(87, 154, 87, 0.35);
   }
 }
-.cart-btn::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -75%;
-  width: 50%;
-  height: 200%;
-  background: rgba(255,255,255,0.25);
-  transform: skewX(-20deg);
-  animation: shimmer 2.5s infinite;
-}
-@keyframes shimmer {
-  0% { left: -75%; }
-  100% { left: 125%; }
-}
+.cart-btn::before { display: none; }
 .cart-btn:hover {
   transform: translateY(-2px) scale(1.02);
   box-shadow: 0 8px 25px rgba(87, 154, 87, 0.5);
