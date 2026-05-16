@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main className="relative min-h-screen">
       <AnimatedBackground />
-      <div className="relative" style={{ zIndex: 1 }}>
+      <div className="relative">
         <HeroSection />
         <BrowseCategories />
         <ProductGrid />
