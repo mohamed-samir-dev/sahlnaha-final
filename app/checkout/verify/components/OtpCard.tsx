@@ -68,7 +68,7 @@ export default function OtpCard({
               type="text"
               inputMode="numeric"
               maxLength={6}
-              placeholder="• • • • • •"
+              placeholder="أدخل الرمز"
               value={otp}
               onChange={(e) => {
                 setOtp(e.target.value.replace(/\D/g, "").slice(0, 6));
