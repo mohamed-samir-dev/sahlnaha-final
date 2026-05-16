@@ -73,18 +73,18 @@ export default async function Footer() {
 
           {/* من نحن */}
           <div>
-            <h3 className="font-bold text-base mb-4 tracking-wide" style={{ color: "#AAD6FF" }}>
+            <h3 className="font-bold text-base mb-4 tracking-wide" style={{ color: "#FFFFFF" }}>
               من نحن
             </h3>
             <div className="w-8 h-[2px] mb-4 rounded-full" style={{ background: "linear-gradient(90deg, #0FF, #225EFF)" }} />
-            <p className="text-sm leading-7" style={{ color: "#7FA8FF" }}>
+            <p className="text-sm leading-7" style={{ color: "#FFFFFF" }}>
               {c.details || "مؤسسة سهلناها التقنية هي اختيارك الأول لشراء أجهزتك بالأقساط داخل السعودية، ضمان موثوق وخدمة محلية."}
             </p>
           </div>
 
           {/* روابط مهمة */}
           <div>
-            <h3 className="font-bold text-base mb-4 tracking-wide" style={{ color: "#AAD6FF" }}>
+            <h3 className="font-bold text-base mb-4 tracking-wide" style={{ color: "#FFFFFF" }}>
               روابط مهمة
             </h3>
             <div className="w-8 h-[2px] mb-4 rounded-full" style={{ background: "linear-gradient(90deg, #0FF, #225EFF)" }} />
@@ -93,7 +93,7 @@ export default async function Footer() {
                 <li key={href}>
                   <Link href={href}
                     className="text-sm flex items-center gap-2 transition-all duration-200 group"
-                    style={{ color: "#7FA8FF" }}
+                    style={{ color: "#FFFFFF" }}
                   >
                     <span className="w-1 h-1 rounded-full shrink-0 transition-all duration-200 group-hover:w-2"
                       style={{ background: "#0FF" }} />
@@ -106,7 +106,7 @@ export default async function Footer() {
 
           {/* تواصل معنا */}
           <div>
-            <h3 className="font-bold text-base mb-4 tracking-wide" style={{ color: "#AAD6FF" }}>
+            <h3 className="font-bold text-base mb-4 tracking-wide" style={{ color: "#FFFFFF" }}>
               تواصل معنا
             </h3>
             <div className="w-8 h-[2px] mb-4 rounded-full" style={{ background: "linear-gradient(90deg, #0FF, #225EFF)" }} />
@@ -115,10 +115,10 @@ export default async function Footer() {
                 <li>
                   <a href={`https://wa.me/${c.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer"
                     className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white group"
-                    style={{ color: "#7FA8FF" }}>
+                    style={{ color: "#FFFFFF" }}>
                     <span className="flex items-center justify-center w-7 h-7 rounded-lg"
                       style={{ background: "rgba(34,94,255,0.3)", border: "1px solid rgba(127,168,255,0.2)" }}>
-                      <FaWhatsapp size={13} style={{ color: "#AAD6FF" }} />
+                      <FaWhatsapp size={13} style={{ color: "#FFFFFF" }} />
                     </span>
                     <span dir="ltr">{c.whatsapp}</span>
                   </a>
@@ -128,10 +128,10 @@ export default async function Footer() {
                 <li>
                   <a href={`tel:${c.phone}`}
                     className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white group"
-                    style={{ color: "#7FA8FF" }}>
+                    style={{ color: "#FFFFFF" }}>
                     <span className="flex items-center justify-center w-7 h-7 rounded-lg"
                       style={{ background: "rgba(34,94,255,0.3)", border: "1px solid rgba(127,168,255,0.2)" }}>
-                      <FaMobileAlt size={13} style={{ color: "#AAD6FF" }} />
+                      <FaMobileAlt size={13} style={{ color: "#FFFFFF" }} />
                     </span>
                     <span dir="ltr">{c.phone}</span>
                   </a>
@@ -141,10 +141,10 @@ export default async function Footer() {
                 <li>
                   <a href={`mailto:${c.email}`}
                     className="flex items-center gap-3 text-sm transition-colors duration-200 hover:text-white group"
-                    style={{ color: "#7FA8FF" }}>
+                    style={{ color: "#FFFFFF" }}>
                     <span className="flex items-center justify-center w-7 h-7 rounded-lg"
                       style={{ background: "rgba(34,94,255,0.3)", border: "1px solid rgba(127,168,255,0.2)" }}>
-                      <FaEnvelope size={13} style={{ color: "#AAD6FF" }} />
+                      <FaEnvelope size={13} style={{ color: "#FFFFFF" }} />
                     </span>
                     <span dir="ltr">{c.email}</span>
                   </a>
@@ -179,7 +179,7 @@ export default async function Footer() {
 
         {/* bottom bar */}
         <div className="mt-10 pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs"
-          style={{ borderTop: "1px solid rgba(127,168,255,0.15)", color: "#7FA8FF" }}>
+          style={{ borderTop: "1px solid rgba(127,168,255,0.15)", color: "#FFFFFF" }}>
           <span>الحقوق محفوظة © 2026 مؤسسة سهلناها التقنية</span>
           <Image src="/فيزا ماستر مدى.webp" alt="Visa Mastercard Mada" width={100} height={30}
             className="object-contain" style={{ width: "auto" }} />

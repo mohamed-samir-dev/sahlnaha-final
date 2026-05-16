@@ -4,7 +4,7 @@ import { useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { IoChevronBack, IoCartOutline, IoCardOutline, IoCheckmarkCircle, IoShieldCheckmarkOutline } from "react-icons/io5";
+import { IoChevronBack, IoCartOutline, IoCardOutline, IoCheckmarkCircle, IoShieldCheckmarkOutline, IoRocketOutline } from "react-icons/io5";
 import { useCartStore } from "../store/cartStore";
 import OrderSummary from "./components/OrderSummary";
 import PaymentForm from "./components/PaymentForm";
@@ -61,55 +61,112 @@ export default function CheckoutPage() {
   ];
 
   return (
-    <main className="min-h-screen pb-10 bg-gradient-to-b from-gray-50/80 to-white" dir="rtl">
-      {/* Header */}
-      <div className="sticky top-0 z-20 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-        <div className="w-full mx-auto px-4 sm:px-8 lg:px-12 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/cart" className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center hover:bg-gray-200 transition-colors">
-              <IoChevronBack size={18} className="text-gray-600 rotate-180" />
-            </Link>
-            <h1 className="text-[15px] font-extrabold text-gray-800">إتمام الطلب</h1>
+    <main className="min-h-screen" dir="rtl">
+      {/* ── Background ── */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-white" />
+        <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.12 }}>
+          <defs><pattern id="ckdots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="#225EFF" /></pattern></defs>
+          <rect width="100%" height="100%" fill="url(#ckdots)" />
+        </svg>
+        <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.06 }}>
+          <defs><pattern id="ckgrid" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M 80 0 L 0 0 0 80" fill="none" stroke="#225EFF" strokeWidth="1" /></pattern></defs>
+          <rect width="100%" height="100%" fill="url(#ckgrid)" />
+        </svg>
+        <style>{`
+          @keyframes blob-move {
+            0%,100%{transform:translate(0,0) scale(1)}
+            25%{transform:translate(50px,-40px) scale(1.2)}
+            50%{transform:translate(-40px,50px) scale(0.85)}
+            75%{transform:translate(30px,-25px) scale(1.15)}
+          }
+        `}</style>
+        {[
+          { size: 600, x: "-8%",  y: "-15%", color: "#225EFF", opacity: 0.22, d: 14 },
+          { size: 500, x: "68%",  y: "-5%",  color: "#7FA8FF", opacity: 0.18, d: 18 },
+          { size: 420, x: "40%",  y: "35%",  color: "#AAD6FF", opacity: 0.22, d: 12 },
+          { size: 380, x: "-5%",  y: "60%",  color: "#225EFF", opacity: 0.16, d: 20 },
+        ].map((b, i) => (
+          <div key={i} className="absolute rounded-full" style={{ width: b.size, height: b.size, left: b.x, top: b.y, background: `radial-gradient(circle at 40% 40%, ${b.color} 0%, transparent 65%)`, opacity: b.opacity, filter: "blur(55px)", animation: `blob-move ${b.d}s ease-in-out infinite` }} />
+        ))}
+      </div>
+
+      {/* ── Hero Header ── */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#225EFF] via-[#1a4fd4] to-[#0a3adb] pt-10 pb-16 px-4 sm:px-8">
+        <div className="absolute inset-0 opacity-10">
+          <svg className="w-full h-full"><defs><pattern id="hck" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="white" /></pattern></defs><rect width="100%" height="100%" fill="url(#hck)" /></svg>
+        </div>
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#7FA8FF]/20 rounded-full translate-x-20 -translate-y-20 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#AAD6FF]/15 rounded-full -translate-x-16 translate-y-16 pointer-events-none" />
+
+        <div className="relative max-w-2xl mx-auto">
+          <Link href="/cart" className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm font-medium mb-6">
+            <IoChevronBack size={16} className="rotate-180" />
+            العودة للسلة
+          </Link>
+
+          <div className="flex items-end justify-between">
+            <div>
+              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-3">
+                <span className="w-2 h-2 rounded-full bg-[#AAD6FF] animate-pulse" />
+                <span className="text-[11px] text-white/80 font-medium">إتمام الطلب</span>
+              </motion.div>
+              <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-3xl sm:text-4xl font-black text-white leading-tight">
+                بيانات الدفع
+              </motion.h1>
+              <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-white/50 text-sm mt-1 font-medium flex items-center gap-1.5">
+                <IoShieldCheckmarkOutline size={14} />
+                دفع آمن ومشفر 100%
+              </motion.p>
+            </div>
+
+            <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }}
+              className="flex flex-col items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
+              <IoCardOutline size={28} className="text-white/80" />
+              <span className="text-[10px] text-white/50 font-medium mt-1">دفع</span>
+            </motion.div>
           </div>
-          <div className="flex items-center gap-1.5 text-gray-400">
-            <IoShieldCheckmarkOutline size={14} />
-            <span className="text-[11px] font-medium">دفع آمن</span>
-          </div>
+
+          {/* Steps */}
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex items-center gap-3 mt-6">
+            {steps.map((step, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                  step.done ? "bg-white/20 text-white border border-white/30" :
+                  step.active ? "bg-white text-[#225EFF] shadow-[0_4px_16px_rgba(0,0,0,0.15)]" :
+                  "bg-white/10 text-white/40 border border-white/10"
+                }`}>
+                  {step.done ? <IoCheckmarkCircle size={14} /> : <step.icon size={14} />}
+                  {step.label}
+                </div>
+                {i < steps.length - 1 && <div className="flex-1 h-px bg-white/20 w-6" />}
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
 
-      {/* Steps Indicator */}
-      <div className="w-full mx-auto px-4 sm:px-8 lg:px-12 pt-5 pb-2">
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-center gap-0"
-        >
-          {steps.map((step, i) => (
-            <div key={i} className="flex items-center">
-              <div className="flex flex-col items-center gap-1.5">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                  step.done ? "bg-[#7CC043] text-white shadow-[0_4px_12px_rgba(124,192,67,0.3)]" :
-                  step.active ? "bg-[#0F4C6E] text-white shadow-[0_4px_12px_rgba(15,76,110,0.3)]" :
-                  "bg-gray-100 text-gray-400"
-                }`}>
-                  {step.done ? <IoCheckmarkCircle size={20} /> : <step.icon size={18} />}
-                </div>
-                <span className={`text-[10px] font-bold ${step.done ? "text-[#7CC043]" : step.active ? "text-[#0F4C6E]" : "text-gray-400"}`}>
-                  {step.label}
-                </span>
-              </div>
-              {i < steps.length - 1 && (
-                <div className={`w-16 sm:w-24 h-0.5 mx-2 mb-5 rounded-full ${step.done ? "bg-[#7CC043]" : "bg-gray-200"}`} />
-              )}
+      {/* ── Content ── */}
+      <div className="max-w-2xl mx-auto px-4 sm:px-8 -mt-6 pb-16">
+        {/* Mini cart summary */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-[#225EFF]/10 shadow-[0_4px_20px_rgba(34,94,255,0.07)] mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#225EFF]/10 to-[#7FA8FF]/10 flex items-center justify-center border border-[#225EFF]/10">
+              <IoCartOutline size={16} className="text-[#225EFF]" />
             </div>
-          ))}
+            <div>
+              <p className="text-xs text-gray-400 font-medium">{items.length} منتج في سلتك</p>
+              <p className="text-sm font-black text-gray-800">{total.toLocaleString("en-US")} ر.س</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 text-[#225EFF]/60 text-xs font-medium">
+            <IoRocketOutline size={13} />
+            توصيل مجاني
+          </div>
         </motion.div>
-      </div>
 
-      {/* Content */}
-      <div className="w-full mx-auto px-4 sm:px-8 lg:px-12">
-        <div className="max-w-2xl mx-auto space-y-5">
+        <div className="space-y-5">
           <OrderSummary total={total} downPayment={downPayment} />
           <PaymentForm onSubmit={handleSubmit} />
         </div>

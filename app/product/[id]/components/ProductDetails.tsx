@@ -3,13 +3,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { FaStar } from "react-icons/fa";
 import { HiOutlineIdentification, HiOutlineCreditCard, HiOutlineClipboardDocumentCheck, HiOutlinePencilSquare, HiOutlineCalendarDays } from "react-icons/hi2";
 import type { Product } from "../../../components/products/types";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
 
-type TabKey = "overview" | "specs" | "reviews";
+type TabKey = "overview" | "specs";
 
 interface Props {
   product: Product;
@@ -30,7 +29,7 @@ export default function ProductDetails({ product }: Props) {
   const tabs: { key: TabKey; label: string }[] = [];
   if (overviewText || features) tabs.push({ key: "overview", label: "نظرة عامة" });
   if (hasSpecs) tabs.push({ key: "specs", label: "المواصفات" });
-  if (hasReviews) tabs.push({ key: "reviews", label: "التقييمات" });
+
 
   const [activeTab, setActiveTab] = useState<TabKey>(tabs[0]?.key || "overview");
 
@@ -61,9 +60,9 @@ export default function ProductDetails({ product }: Props) {
       {/* ── Overview Tab ── */}
       {activeTab === "overview" && (
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.15 }}
           className="space-y-6"
         >
           {/* Overview text */}
@@ -135,9 +134,9 @@ export default function ProductDetails({ product }: Props) {
       {/* ── Specs Tab ── */}
       {activeTab === "specs" && (
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.15 }}
         >
           {/* New specifications format (grouped) */}
           {specifications && specifications.length > 0 ? (
@@ -183,69 +182,7 @@ export default function ProductDetails({ product }: Props) {
         </motion.div>
       )}
 
-      {/* ── Reviews Tab ── */}
-      {activeTab === "reviews" && hasReviews && (
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="space-y-4"
-        >
-          {/* Rating summary */}
-          {product.rating && (
-            <div className="bg-white rounded-2xl sm:rounded-3xl border border-[#D9E4F5]/50 shadow-[0_2px_16px_rgba(6,57,155,0.05)] p-5 sm:p-6 flex items-center gap-5">
-              <div className="text-center">
-                <div className="text-3xl sm:text-4xl font-black text-[#06399B]">{product.rating.average}</div>
-                <div className="flex items-center gap-0.5 mt-1 justify-center">
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar key={i} size={12} className={i < Math.round(product.rating!.average) ? "text-amber-400" : "text-gray-200"} />
-                  ))}
-                </div>
-                <p className="text-[11px] text-gray-400 mt-1">{product.rating.count} تقييم</p>
-              </div>
-              <div className="flex-1 space-y-1.5">
-                {[5, 4, 3, 2, 1].map(star => {
-                  const count = reviews!.filter(r => r.rate === star).length;
-                  const pct = reviews!.length > 0 ? (count / reviews!.length) * 100 : 0;
-                  return (
-                    <div key={star} className="flex items-center gap-2">
-                      <span className="text-[10px] text-gray-400 w-3">{star}</span>
-                      <FaStar size={9} className="text-amber-400" />
-                      <div className="flex-1 h-2 rounded-full bg-[#D9E4F5]/40 overflow-hidden">
-                        <div className="h-full rounded-full bg-gradient-to-r from-[#06399B] to-[#3258B1]" style={{ width: `${pct}%` }} />
-                      </div>
-                      <span className="text-[10px] text-gray-400 w-5">{count}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
 
-          {/* Individual reviews */}
-          {reviews!.map((review, i) => (
-            <div key={i} className="bg-white rounded-2xl border border-[#D9E4F5]/50 shadow-[0_2px_16px_rgba(6,57,155,0.05)] p-4 sm:p-5">
-              <div className="flex items-center justify-between mb-2.5">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#06399B] to-[#3258B1] flex items-center justify-center text-white text-xs font-bold">
-                    {(review.name || "م").charAt(0)}
-                  </div>
-                  <div>
-                    <p className="text-xs sm:text-[13px] font-bold text-gray-800">{review.name || "مستخدم"}</p>
-                    <div className="flex items-center gap-0.5 mt-0.5">
-                      {[...Array(5)].map((_, si) => (
-                        <FaStar key={si} size={9} className={si < review.rate ? "text-amber-400" : "text-gray-200"} />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <span className="text-[10px] text-gray-400">{review.date}</span>
-              </div>
-              <p className="text-xs sm:text-[13px] text-gray-600 leading-relaxed">{review.comment}</p>
-            </div>
-          ))}
-        </motion.div>
-      )}
 
       {/* ── Installment Section (always visible) ── */}
       {hasInstallment && (

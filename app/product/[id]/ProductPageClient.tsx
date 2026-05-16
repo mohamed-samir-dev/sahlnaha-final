@@ -92,12 +92,7 @@ export default function ProductPageClient({ id, initialProduct }: { id: string; 
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-3 sm:px-5 md:px-8 pt-6 sm:pt-8 md:pt-10">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-10"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-10">
           {/* Images */}
           <div className="lg:col-span-7">
             <ProductImages images={allImages} name={product.name} discountPercent={product.discountPercent} />
@@ -110,7 +105,7 @@ export default function ProductPageClient({ id, initialProduct }: { id: string; 
               onAddToCart={() => { addItem(product); setAddedToCart(true); }}
             />
           </div>
-        </motion.div>
+        </div>
         <ProductDetails product={product} />
       </div>
     </main>
