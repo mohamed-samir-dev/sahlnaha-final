@@ -80,7 +80,7 @@ export default function PromoBanners() {
 
       {/* Mobile/Tablet: Slider */}
       <div className="lg:hidden relative">
-        <div className="relative h-[280px] sm:h-[260px] rounded-2xl overflow-hidden">
+        <div className="relative h-[200px] sm:h-[260px] rounded-2xl overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={current}

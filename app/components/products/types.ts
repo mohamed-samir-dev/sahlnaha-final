@@ -1,6 +1,7 @@
 export interface Product {
   _id: string;
   name: string;
+  brief?: string;
   originalPrice: number;
   salePrice?: number;
   price: number;
@@ -14,15 +15,12 @@ export interface Product {
   screenSize?: string;
   overview?: string;
   overviewImage?: string;
-  features?: {
-    screenAndDesign?: string[];
-    performance?: string[];
-    battery?: string[];
-    frontCamera?: string[];
-    rearCamera?: string[];
-    videoAndPhotography?: string[];
-  };
-  detailedSpecs?: Record<string, string>;
+  specifications?: {
+    groupName: string;
+    items: { label: string; value: string }[];
+  }[];
+  features?: string[];
+  detailedSpecs?: Record<string, Record<string, string>>;
   specs?: {
     screen?: string;
     processor?: string;
@@ -52,4 +50,18 @@ export interface Product {
   subCategory?: string;
   brand?: string;
   inStock: boolean;
+  rating?: {
+    average: number;
+    count: number;
+  };
+  reviews?: {
+    name: string;
+    rate: number;
+    comment: string;
+    date: string;
+  }[];
+  colors?: {
+    name: string;
+    code: string;
+  }[];
 }

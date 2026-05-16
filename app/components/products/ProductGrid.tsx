@@ -99,26 +99,32 @@ function CategoryRow({ category, items, isFirst }: { category: string; items: Pr
   const href = categoryPageMap[category] ?? categoryPageMap[category.toLowerCase()] ?? `/search?q=${encodeURIComponent(category)}`;
 
   return (
-    <div className="mb-10">
-      <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6" dir="rtl">
-        <div className="flex-1 h-px bg-[#1F6F8B]/20" />
-        <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-[#0F4C6E] whitespace-nowrap px-2 sm:px-3">{category}</h2>
-        <div className="flex-1 h-px bg-[#1F6F8B]/20" />
+    <div className="mb-14">
+      {/* Section Header */}
+      <div className="flex items-center gap-3 sm:gap-4 mb-5 sm:mb-7" dir="rtl">
+        <div className="flex-1 h-px bg-gradient-to-l from-[#D9E4F5] to-transparent" />
+        <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#D9E4F5]/60 border border-[#D9E4F5]">
+          <span className="w-2 h-2 rounded-full bg-[#06399B] animate-pulse flex-shrink-0" />
+          <h2 className="text-sm sm:text-base md:text-lg lg:text-xl font-black text-[#06399B] whitespace-nowrap">{category}</h2>
+        </div>
+        <div className="flex-1 h-px bg-gradient-to-r from-[#D9E4F5] to-transparent" />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
         {visible.map((p, i) => (
           <ProductCard key={p._id} product={p} priority={isFirst && i === 0} />
         ))}
       </div>
-      <div className="flex items-center gap-3 mt-6" dir="rtl">
-        <div className="flex-1 h-px bg-[#1F6F8B]/15" />
+
+      {/* View All Button */}
+      <div className="flex justify-center mt-5">
         <Link
           href={href}
-          className="text-xs sm:text-sm font-semibold text-white whitespace-nowrap px-5 py-2 rounded-full bg-gradient-to-r from-[#0F4C6E] to-[#1F6F8B] hover:from-[#1F6F8B] hover:to-[#7CC043] shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+          className="inline-flex items-center gap-2 px-10 py-3 rounded-xl bg-gradient-to-r from-[#06399B] to-[#3258B1] text-white text-sm font-bold shadow-[0_4px_16px_rgba(6,57,155,0.3)] hover:shadow-[0_8px_28px_rgba(6,57,155,0.45)] hover:-translate-y-0.5 transition-all duration-300 w-full sm:w-auto justify-center"
         >
-          عرض الكل
+          عرض جميع المنتجات
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
         </Link>
-        <div className="flex-1 h-px bg-[#1F6F8B]/15" />
       </div>
     </div>
   );
@@ -184,21 +190,21 @@ export default function ProductGrid() {
   if (loading) return (
     <section className="w-full max-w-6xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
       {[1, 2, 3].map((g) => (
-        <div key={g} className="mb-10">
+        <div key={g} className="mb-14">
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex-1 h-px bg-[#1F6F8B]/15" />
-            <div className="h-6 w-32 bg-[#1F6F8B]/10 animate-pulse rounded" />
-            <div className="flex-1 h-px bg-[#1F6F8B]/15" />
+            <div className="flex-1 h-px bg-[#D9E4F5]" />
+            <div className="h-8 w-40 bg-[#D9E4F5] animate-pulse rounded-2xl" />
+            <div className="flex-1 h-px bg-[#D9E4F5]" />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-white/60 backdrop-blur-sm rounded-xl shadow-md border border-white/60 overflow-hidden">
-                <div className="w-full aspect-square bg-[#E6F2F8]/50 animate-pulse" />
+              <div key={i} className="bg-white rounded-2xl border border-[#D9E4F5]/60 overflow-hidden shadow-sm">
+                <div className="w-full aspect-square bg-[#D9E4F5]/40 animate-pulse" />
                 <div className="p-3 space-y-2">
-                  <div className="h-4 bg-[#E6F2F8]/60 animate-pulse rounded w-3/4" />
-                  <div className="h-4 bg-[#E6F2F8]/60 animate-pulse rounded w-1/2" />
+                  <div className="h-4 bg-[#D9E4F5]/60 animate-pulse rounded w-3/4" />
+                  <div className="h-4 bg-[#D9E4F5]/60 animate-pulse rounded w-1/2" />
                 </div>
-                <div className="border-t border-white/40 h-12 bg-[#E6F2F8]/30 animate-pulse" />
+                <div className="border-t border-[#D9E4F5]/40 h-12 bg-[#D9E4F5]/20 animate-pulse" />
               </div>
             ))}
           </div>
@@ -209,17 +215,30 @@ export default function ProductGrid() {
   if (!products.length) return <p className="text-center text-gray-400 py-10">لا توجد منتجات حالياً</p>;
 
   return (
-    <section className="w-full py-6 sm:py-8 overflow-hidden">
-    <div className="max-w-6xl mx-auto px-3 sm:px-4">
-      {orderedCategories.map((category, catIdx) => (
-        <div key={category}>
-          <div className="-mx-3 sm:-mx-4 mb-4 sm:mb-6 border-t border-[#1F6F8B]/10 pt-4 sm:pt-6">
-            <CategoryBanner category={category} images={bannerMap[category]} />
+    <section className="w-full py-8 sm:py-12 overflow-hidden" dir="rtl">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4">
+        {/* Section Title */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D9E4F5] mb-3">
+            <span className="w-2 h-2 rounded-full bg-[#06399B] animate-pulse" />
+            <span className="text-xs font-semibold text-[#06399B]">منتجاتنا المختارة</span>
           </div>
-          <CategoryRow category={category} items={grouped[category]} isFirst={catIdx === 0} />
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#06399B]">تسوّق بالتصنيف</h2>
+          <p className="text-sm sm:text-base text-gray-500 mt-2">أفضل المنتجات من كل تصنيف</p>
         </div>
-      ))}
-    </div>
+
+        {orderedCategories.map((category, catIdx) => (
+          <div key={category}>
+            {/* Category Banner */}
+            {bannerMap[category]?.length > 0 && (
+              <div className="-mx-3 sm:-mx-4 mb-5 sm:mb-7">
+                <CategoryBanner category={category} images={bannerMap[category]} />
+              </div>
+            )}
+            <CategoryRow category={category} items={grouped[category]} isFirst={catIdx === 0} />
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

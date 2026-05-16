@@ -62,7 +62,7 @@ function CategoryBannerSlider({ images }: { images: string[] }) {
       >
         {/* Gradient border accent */}
         <div className="absolute inset-0 rounded-2xl sm:rounded-3xl z-30 pointer-events-none"
-          style={{ border: "1.5px solid rgba(124,192,67,0.25)" }}
+          style={{ border: "1.5px solid rgba(6,57,155,0.2)" }}
         />
 
         <div
@@ -120,26 +120,7 @@ function CategoryBannerSlider({ images }: { images: string[] }) {
                 }}
                 initial={{ opacity: 0, x: -8 }}
                 animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -8 }}
-                whileHover={{ scale: 1.15, background: "rgba(124,192,67,0.5)" }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ duration: 0.2 }}
-              >
-                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-              </motion.button>
-              <motion.button
-                onClick={() => goTo(current - 1, -1)}
-                aria-label="السابق"
-                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center cursor-pointer"
-                style={{
-                  background: "rgba(255,255,255,0.15)",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255,255,255,0.25)",
-                }}
-                initial={{ opacity: 0, x: 8 }}
-                animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : 8 }}
-                whileHover={{ scale: 1.15, background: "rgba(124,192,67,0.5)" }}
+                whileHover={{ scale: 1.15, background: "rgba(6,57,155,0.5)" }}
                 whileTap={{ scale: 0.9 }}
                 transition={{ duration: 0.2 }}
               >
@@ -157,7 +138,7 @@ function CategoryBannerSlider({ images }: { images: string[] }) {
                 className="h-full rounded-full"
                 style={{
                   width: `${progress}%`,
-                  background: "linear-gradient(90deg, #7CC043, #5FA32E)",
+                  background: "linear-gradient(90deg, #06399B, #3258B1)",
                 }}
               />
             </div>
@@ -177,9 +158,9 @@ function CategoryBannerSlider({ images }: { images: string[] }) {
               animate={{
                 width: i === current ? 20 : 7,
                 height: 7,
-                backgroundColor: i === current ? "#1F6F8B" : "#d1d5db",
+                backgroundColor: i === current ? "#06399B" : "#D9E4F5",
               }}
-              whileHover={{ backgroundColor: "#7CC043" }}
+              whileHover={{ backgroundColor: "#3258B1" }}
               transition={{ duration: 0.3 }}
             />
           ))}
