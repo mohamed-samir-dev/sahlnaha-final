@@ -1,5 +1,29 @@
 "use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.15, duration: 0.5, ease: "easeOut" },
+  }),
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.6 } },
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { delay: i * 0.12, duration: 0.45, ease: "easeOut" },
+  }),
+};
 
 export default function PaymentClient() {
   return (
@@ -10,17 +34,35 @@ export default function PaymentClient() {
         <div className="flex flex-col lg:flex-row items-center gap-8 sm:gap-10 lg:gap-16">
 
           {/* Right - Text + Features */}
-          <div className="flex-1 text-center lg:text-right">
-            <h1 className="text-[1.6rem] sm:text-[2.2rem] md:text-4xl lg:text-5xl font-extrabold text-[#0031f3] mb-3 sm:mb-4 leading-[1.3]">
+          <div className="flex-1 text-right">
+            <motion.h1
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={0}
+              className="text-[1.6rem] sm:text-[2.2rem] md:text-4xl lg:text-5xl font-extrabold text-[#0031f3] mb-3 sm:mb-4 leading-[1.3]"
+            >
               طرق الدفع
-            </h1>
-            <p className="text-[#6b7280] text-[0.82rem] sm:text-[0.92rem] lg:text-base leading-[1.8] max-w-md mx-auto lg:mx-0 mb-6 sm:mb-8">
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={1}
+              className="text-[#6b7280] text-[0.82rem] sm:text-[0.92rem] lg:text-base leading-[1.8] max-w-md mb-6 sm:mb-8"
+            >
               نوفر لك مجموعة متنوعة من طرق الدفع الآمنة والموثوقة
               لتجربة تسوق سهلة وسريعة وآمنة.
-            </p>
+            </motion.p>
 
             {/* Features */}
-            <div className="flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap items-start gap-3 sm:gap-4 lg:gap-0 lg:divide-x lg:divide-x-reverse lg:divide-gray-200 max-w-2xl mx-auto lg:mx-0">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={2}
+              className="flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap items-start gap-3 sm:gap-4 lg:gap-0 lg:divide-x lg:divide-x-reverse lg:divide-gray-200 max-w-2xl"
+            >
               <div className="flex items-center gap-3 w-full sm:w-auto lg:pl-5">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#1A59FD]/10 flex items-center justify-center shrink-0">
                   <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#1A59FD]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -58,11 +100,16 @@ export default function PaymentClient() {
                   <p className="text-[0.7rem] sm:text-xs text-[#6b7280] leading-relaxed">بوابات دفع عالمية آمنة 100%</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Left - Image */}
-          <div className="flex-1 flex justify-center">
+          <motion.div
+            variants={fadeIn}
+            initial="hidden"
+            animate="visible"
+            className="flex-1 flex justify-center"
+          >
             <Image
               src="/top.webp"
               alt="طرق الدفع"
@@ -71,23 +118,45 @@ export default function PaymentClient() {
               className="object-contain w-full max-w-[240px] sm:max-w-[320px] md:max-w-[380px] lg:max-w-[420px]"
               priority
             />
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ══ PAYMENT METHODS ══ */}
       <section className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 lg:px-20 pb-16 sm:pb-24">
-        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#0031f3] text-center mb-2 sm:mb-4">
+        <motion.h2
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          custom={0}
+          className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#0031f3] text-center mb-2 sm:mb-4"
+        >
           طرق الدفع المتاحة
-        </h2>
-        <p className="text-[#6b7280] text-center text-[0.8rem] sm:text-sm md:text-base mb-8 sm:mb-12 max-w-lg mx-auto leading-relaxed">
+        </motion.h2>
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          custom={1}
+          className="text-[#6b7280] text-center text-[0.8rem] sm:text-sm md:text-base mb-8 sm:mb-12 max-w-lg mx-auto leading-relaxed"
+        >
           اختر الطريقة الأنسب لك من بين وسائل الدفع المعتمدة
-        </p>
+        </motion.p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-4xl mx-auto">
 
           {/* Mastercard */}
-          <div className="group bg-gradient-to-b from-[#f8faff] to-white rounded-2xl sm:rounded-3xl border border-gray-100 p-5 sm:p-7 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <motion.div
+            variants={scaleIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            custom={0}
+            whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,49,243,0.1)" }}
+            className="group bg-gradient-to-b from-[#f8faff] to-white rounded-2xl sm:rounded-3xl border border-gray-100 p-5 sm:p-7 text-center transition-all duration-300"
+          >
             <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mx-auto mb-4 sm:mb-5 rounded-xl sm:rounded-2xl bg-white shadow-sm flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
               <Image src="/master.webp" alt="ماستركارد" width={64} height={64} className="object-contain w-10 sm:w-12 lg:w-14" />
             </div>
@@ -99,10 +168,18 @@ export default function PaymentClient() {
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
               مدعومة عالمياً
             </span>
-          </div>
+          </motion.div>
 
           {/* Visa */}
-          <div className="group bg-gradient-to-b from-[#f8faff] to-white rounded-2xl sm:rounded-3xl border border-gray-100 p-5 sm:p-7 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <motion.div
+            variants={scaleIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            custom={1}
+            whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,49,243,0.1)" }}
+            className="group bg-gradient-to-b from-[#f8faff] to-white rounded-2xl sm:rounded-3xl border border-gray-100 p-5 sm:p-7 text-center transition-all duration-300"
+          >
             <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mx-auto mb-4 sm:mb-5 rounded-xl sm:rounded-2xl bg-white shadow-sm flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
               <Image src="/visa.webp" alt="فيزا" width={64} height={64} className="object-contain w-10 sm:w-12 lg:w-14" />
             </div>
@@ -114,10 +191,18 @@ export default function PaymentClient() {
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
               مدعومة عالمياً
             </span>
-          </div>
+          </motion.div>
 
           {/* Mada */}
-          <div className="group bg-gradient-to-b from-[#f8faff] to-white rounded-2xl sm:rounded-3xl border border-gray-100 p-5 sm:p-7 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 sm:col-span-2 lg:col-span-1 sm:max-w-sm sm:mx-auto lg:max-w-none">
+          <motion.div
+            variants={scaleIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            custom={2}
+            whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,49,243,0.1)" }}
+            className="group bg-gradient-to-b from-[#f8faff] to-white rounded-2xl sm:rounded-3xl border border-gray-100 p-5 sm:p-7 text-center transition-all duration-300 sm:col-span-2 lg:col-span-1 sm:max-w-sm sm:mx-auto lg:max-w-none"
+          >
             <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mx-auto mb-4 sm:mb-5 rounded-xl sm:rounded-2xl bg-white shadow-sm flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
               <Image src="/mada.webp" alt="مدى" width={64} height={64} className="object-contain w-10 sm:w-12 lg:w-14" />
             </div>
@@ -129,15 +214,21 @@ export default function PaymentClient() {
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
               مدعومة في السعودية
             </span>
-          </div>
+          </motion.div>
 
         </div>
       </section>
 
       {/* ══ INSTALLMENT CARD ══ */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pb-14 sm:pb-24">
+      <motion.section
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        custom={0}
+        className="max-w-5xl mx-auto px-4 sm:px-6 md:px-8 pb-14 sm:pb-24"
+      >
         <div className="bg-gradient-to-br from-[#EFF4FD] to-[#e8effc] rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8">
-          {/* Right - Image */}
           <div className="shrink-0">
             <Image
               src="/final.webp"
@@ -148,10 +239,8 @@ export default function PaymentClient() {
             />
           </div>
 
-          {/* Divider */}
           <div className="hidden md:block w-px h-28 bg-gray-300/60" />
 
-          {/* Left - Text */}
           <div className="text-center md:text-right">
             <h3 className="text-lg sm:text-xl md:text-2xl font-extrabold text-[#0031f3] mb-2 sm:mb-3">
               ادفع بالتقسيط المريح
@@ -163,10 +252,17 @@ export default function PaymentClient() {
             </p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ══ TRUST BANNER ══ */}
-      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 lg:px-20 pb-14 sm:pb-24">
+      <motion.section
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        custom={0}
+        className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-8 lg:px-20 pb-14 sm:pb-24"
+      >
         <div className="bg-gradient-to-br from-[#000F4C] to-[#001a6e] rounded-2xl sm:rounded-3xl p-6 sm:p-10 md:p-12 text-center">
           <h3 className="text-lg sm:text-2xl md:text-3xl font-extrabold text-white mb-3 sm:mb-4">
             تسوق بثقة وأمان
@@ -177,7 +273,7 @@ export default function PaymentClient() {
             حتى تتمكن من إتمام عمليات الشراء براحة بال تامة دون أي قلق.
           </p>
         </div>
-      </section>
+      </motion.section>
 
     </main>
   );
