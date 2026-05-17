@@ -102,18 +102,18 @@ export default function CheckoutPage() {
           </div>
 
           {/* Steps */}
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex items-center gap-3 mt-6">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex items-center mt-6">
             {steps.map((step, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+              <div key={i} className="flex items-center">
+                <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold transition-all ${
                   step.done ? "bg-white/20 text-white border border-white/30" :
                   step.active ? "bg-white text-[#225EFF] shadow-[0_4px_16px_rgba(0,0,0,0.15)]" :
                   "bg-white/10 text-white/40 border border-white/10"
                 }`}>
-                  {step.done ? <IoCheckmarkCircle size={14} /> : <step.icon size={14} />}
-                  {step.label}
+                  {step.done ? <IoCheckmarkCircle size={12} /> : <step.icon size={12} />}
+                  <span className="hidden xs:inline">{step.label}</span>
                 </div>
-                {i < steps.length - 1 && <div className="flex-1 h-px bg-white/20 w-6" />}
+                {i < steps.length - 1 && <div className="h-px bg-white/20 w-4 sm:w-6 mx-1" />}
               </div>
             ))}
           </motion.div>
@@ -123,7 +123,7 @@ export default function CheckoutPage() {
       {/* ── Content ── */}
       <div className="max-w-2xl mx-auto px-4 sm:px-8 -mt-6 pb-16">
         {/* Mini cart summary */}
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+        {/* <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-[#225EFF]/10 shadow-[0_4px_20px_rgba(34,94,255,0.07)] mb-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#225EFF]/10 to-[#7FA8FF]/10 flex items-center justify-center border border-[#225EFF]/10">
@@ -138,7 +138,7 @@ export default function CheckoutPage() {
             <IoRocketOutline size={13} />
             توصيل مجاني
           </div>
-        </motion.div>
+        </motion.div> */}
 
         <div className="space-y-5">
           <OrderSummary total={total} downPayment={downPayment} />

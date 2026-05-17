@@ -324,10 +324,10 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
       >
         <button
           onClick={() => router.push("/cart")}
-          className="flex items-center justify-center gap-1.5 w-[120px] bg-white/80 backdrop-blur-sm border border-[#225EFF]/15 text-gray-500 font-bold py-3.5 rounded-xl text-sm hover:bg-white hover:border-[#225EFF]/30 transition-all"
+          className="flex items-center justify-center gap-1.5 w-[90px] sm:w-[120px] shrink-0 bg-white/80 backdrop-blur-sm border border-[#225EFF]/15 text-gray-500 font-bold py-3.5 rounded-xl text-sm hover:bg-white hover:border-[#225EFF]/30 transition-all"
         >
           <IoChevronBack size={16} className="rotate-180" />
-          السابق
+          <span className="hidden sm:inline">السابق</span>
         </button>
         <motion.button
           whileHover={isBlocked ? {} : { scale: 1.01, y: -1 }}

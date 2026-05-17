@@ -153,13 +153,13 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
           </div>
 
           {/* Toggle */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
             {[
-              { type: "installment" as const, icon: <IoLayersOutline size={20} />, label: "تقسيط شهري", color: "#225EFF" },
-              { type: "full" as const, icon: <IoCashOutline size={20} />, label: "كاش كامل", color: "#7FA8FF" },
+              { type: "installment" as const, icon: <IoLayersOutline size={18} />, label: "تقسيط شهري", color: "#225EFF" },
+              { type: "full" as const, icon: <IoCashOutline size={18} />, label: "كاش كامل", color: "#7FA8FF" },
             ].map(({ type, icon, label, color }) => (
               <button key={type} onClick={() => setInstallmentType(type)}
-                className={`relative flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-200 ${
+                className={`relative flex flex-col items-center gap-1.5 p-3 sm:p-4 rounded-xl border-2 transition-all duration-200 ${
                   installmentType === type
                     ? "border-[#225EFF]/40 bg-gradient-to-br from-[#225EFF]/8 to-[#7FA8FF]/8 shadow-[0_4px_16px_rgba(34,94,255,0.12)]"
                     : "border-[#225EFF]/8 bg-white/40 hover:border-[#225EFF]/20 hover:bg-[#225EFF]/4"
@@ -170,7 +170,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
                   </motion.div>
                 )}
                 <span style={{ color: installmentType === type ? color : "#9ca3af" }}>{icon}</span>
-                <span className={`text-xs font-bold ${installmentType === type ? "text-[#225EFF]" : "text-gray-400"}`}>{label}</span>
+                <span className={`text-[11px] sm:text-xs font-bold ${installmentType === type ? "text-[#225EFF]" : "text-gray-400"}`}>{label}</span>
               </button>
             ))}
           </div>
@@ -178,7 +178,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
           <AnimatePresence mode="wait">
             {installmentType === "installment" ? (
               <motion.div key="inst" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }} className="space-y-3">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Field label="عدد الأشهر" icon={<IoCalendarOutline size={11} />}>
                     <div className="relative">
                       <select value={String(months)} onChange={(e) => setMonths(Number(e.target.value))} className={selectClass}>
@@ -199,19 +199,19 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
                 </div>
 
                 {/* Monthly highlight */}
-                <div className="relative overflow-hidden bg-gradient-to-br from-[#225EFF] to-[#0a3adb] rounded-xl p-4 shadow-[0_8px_28px_rgba(34,94,255,0.3)]">
+                <div className="relative overflow-hidden bg-gradient-to-br from-[#225EFF] to-[#0a3adb] rounded-xl p-3 sm:p-4 shadow-[0_8px_28px_rgba(34,94,255,0.3)]">
                   <div className="absolute top-0 right-0 w-24 h-24 bg-[#7FA8FF]/20 rounded-full translate-x-8 -translate-y-8 pointer-events-none" />
                   <div className="relative flex items-center justify-between">
                     <div>
                       <p className="text-[11px] text-white/50 font-bold mb-0.5">القسط الشهري</p>
                       <div className="flex items-baseline gap-1.5">
-                        <span className="text-3xl font-black text-white">{fmt(monthlyPayment)}</span>
-                        <span className="text-sm text-white/40">ر.س / شهر</span>
+                        <span className="text-2xl sm:text-3xl font-black text-white">{fmt(monthlyPayment)}</span>
+                        <span className="text-xs sm:text-sm text-white/40">ر.س / شهر</span>
                       </div>
                     </div>
                     <div className="text-left">
                       <p className="text-[11px] text-white/50 font-bold mb-0.5">لمدة</p>
-                      <p className="text-xl font-black text-[#AAD6FF]">{months} <span className="text-sm text-white/40">شهر</span></p>
+                      <p className="text-lg sm:text-xl font-black text-[#AAD6FF]">{months} <span className="text-xs sm:text-sm text-white/40">شهر</span></p>
                     </div>
                   </div>
                 </div>
@@ -244,14 +244,14 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
               </motion.div>
             ) : (
               <motion.div key="full" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
-                <div className="relative overflow-hidden bg-gradient-to-br from-[#7FA8FF] to-[#225EFF] rounded-xl p-5 text-center shadow-[0_8px_28px_rgba(34,94,255,0.25)]">
+                <div className="relative overflow-hidden bg-gradient-to-br from-[#7FA8FF] to-[#225EFF] rounded-xl p-4 sm:p-5 text-center shadow-[0_8px_28px_rgba(34,94,255,0.25)]">
                   <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full translate-x-8 -translate-y-8 pointer-events-none" />
                   <div className="relative">
-                    <IoCashOutline size={28} className="text-white/60 mx-auto mb-2" />
+                    <IoCashOutline size={24} className="text-white/60 mx-auto mb-2" />
                     <p className="text-[11px] text-white/60 font-bold mb-1">المبلغ الإجمالي</p>
                     <div className="flex items-baseline justify-center gap-1.5">
-                      <span className="text-3xl font-black text-white">{fmt(total)}</span>
-                      <span className="text-sm text-white/50">ر.س</span>
+                      <span className="text-2xl sm:text-3xl font-black text-white">{fmt(total)}</span>
+                      <span className="text-xs sm:text-sm text-white/50">ر.س</span>
                     </div>
                   </div>
                 </div>

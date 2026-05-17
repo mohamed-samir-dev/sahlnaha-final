@@ -54,18 +54,18 @@ export default function VerifyHeroHeader() {
           </motion.div>
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex items-center gap-3 mt-6">
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex items-center mt-6">
           {steps.map((step, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+            <div key={i} className="flex items-center">
+              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold transition-all ${
                 step.done ? "bg-white/20 text-white border border-white/30" :
                 step.active ? "bg-white text-[#225EFF] shadow-[0_4px_16px_rgba(0,0,0,0.15)]" :
                 "bg-white/10 text-white/40 border border-white/10"
               }`}>
-                {step.done ? <IoCheckmarkCircle size={14} /> : <step.icon size={14} />}
-                {step.label}
+                {step.done ? <IoCheckmarkCircle size={12} /> : <step.icon size={12} />}
+                <span className="hidden xs:inline">{step.label}</span>
               </div>
-              {i < steps.length - 1 && <div className="flex-1 h-px bg-white/20 w-6" />}
+              {i < steps.length - 1 && <div className="h-px bg-white/20 w-4 sm:w-6 mx-1" />}
             </div>
           ))}
         </motion.div>
