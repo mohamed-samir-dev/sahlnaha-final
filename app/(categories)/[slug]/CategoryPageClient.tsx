@@ -104,7 +104,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
           <div className="pb-12 sm:pb-16">
             <div className="flex items-start gap-3.5 sm:gap-4">
               <div className="cat-icon-box">
-                <HiOutlineSparkles className="text-[#7CC043] text-xl sm:text-2xl" />
+                <HiOutlineSparkles className="text-[#1752FC] text-xl sm:text-2xl" />
               </div>
               <div className="flex-1 min-w-0">
                 <h1 className="text-2xl sm:text-4xl font-black text-white leading-tight tracking-tight">{label}</h1>
@@ -122,8 +122,8 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
 
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 60" fill="none" className="w-full h-auto" preserveAspectRatio="none">
-            <path d="M0 60V30C180 10 360 0 540 10C720 20 900 45 1080 45C1260 45 1350 30 1440 20V60H0Z" fill="#f7fafb" />
-            <path d="M0 60V40C200 20 400 15 600 25C800 35 1000 50 1200 45C1320 42 1380 35 1440 30V60H0Z" fill="#f0f5f7" fillOpacity="0.5" />
+            <path d="M0 60V30C180 10 360 0 540 10C720 20 900 45 1080 45C1260 45 1350 30 1440 20V60H0Z" fill="#ffffff" />
+            <path d="M0 60V40C200 20 400 15 600 25C800 35 1000 50 1200 45C1320 42 1380 35 1440 30V60H0Z" fill="#f4f6ff" fillOpacity="0.5" />
           </svg>
         </div>
       </div>
@@ -161,15 +161,15 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
           <>
             <div className="flex items-center justify-between mb-5 sm:mb-8">
               <div className="cat-toolbar-badge">
-                <BsGrid3X3GapFill className="text-[#1F6F8B]" size={14} />
-                <span className="text-sm font-extrabold text-[#0a3550]">{products.length}</span>
-                <span className="text-[11px] text-gray-400 font-medium">منتج متوفر</span>
+                <BsGrid3X3GapFill className="text-[#1752FC]" size={14} />
+                <span className="text-sm font-extrabold text-[#030D30]">{products.length}</span>
+                <span className="text-[11px] text-[#A1A4C3] font-medium">منتج متوفر</span>
               </div>
               {totalPages > 1 && (
                 <div className="cat-page-indicator">
-                  <span className="text-[11px] text-gray-400">صفحة</span>
-                  <span className="text-sm font-bold text-[#0F4C6E]">{page}</span>
-                  <span className="text-[11px] text-gray-400">من {totalPages}</span>
+                  <span className="text-[11px] text-[#A1A4C3]">صفحة</span>
+                  <span className="text-sm font-bold text-[#1752FC]">{page}</span>
+                  <span className="text-[11px] text-[#A1A4C3]">من {totalPages}</span>
                 </div>
               )}
             </div>

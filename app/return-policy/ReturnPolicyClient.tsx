@@ -63,9 +63,9 @@ const sections = [
   {
     Icon: IconBox,
     title: "حالة المنتج",
-    gradient: "from-[#0F4C6E] to-[#1F6F8B]",
-    bg: "bg-[#E6F2F8]",
-    iconText: "text-[#0F4C6E]",
+    gradient: "from-[#0031f3] to-[#1A59FD]",
+    bg: "bg-[#EFF4FD]",
+    iconText: "text-[#0031f3]",
     content: [
       "يشترط أن يكون المنتج في حالته الأصلية وغير مستخدم، مع الحفاظ على التغليف والملحقات والفاتورة إن وجدت.",
     ],
@@ -73,9 +73,9 @@ const sections = [
   {
     Icon: IconClock,
     title: "مدة طلب الاسترجاع",
-    gradient: "from-[#0a3550] to-[#0F4C6E]",
-    bg: "bg-[#ddeef7]",
-    iconText: "text-[#0a3550]",
+    gradient: "from-[#000F4C] to-[#0031f3]",
+    bg: "bg-[#e8effc]",
+    iconText: "text-[#000F4C]",
     content: [
       "يتم تقديم طلبات الاستبدال أو الاسترجاع خلال المدة المحددة حسب سياسة المتجر، وبعد مراجعة حالة الطلب والمنتج.",
     ],
@@ -83,9 +83,9 @@ const sections = [
   {
     Icon: IconBan,
     title: "المنتجات غير القابلة للاسترجاع",
-    gradient: "from-[#1F6F8B] to-[#0a3550]",
-    bg: "bg-[#ddeef7]",
-    iconText: "text-[#1F6F8B]",
+    gradient: "from-[#1A59FD] to-[#000F4C]",
+    bg: "bg-[#e8effc]",
+    iconText: "text-[#1A59FD]",
     content: [
       "بعض المنتجات قد لا تكون قابلة للاسترجاع أو الاستبدال بعد فتحها أو استخدامها، وخاصة المنتجات الشخصية أو الرقمية أو التي تم تجهيزها بطلب خاص.",
     ],
@@ -93,9 +93,9 @@ const sections = [
   {
     Icon: IconXCircle,
     title: "إلغاء الطلبات",
-    gradient: "from-[#7CC043] to-[#5a9030]",
-    bg: "bg-[#eaf5d8]",
-    iconText: "text-[#5a9030]",
+    gradient: "from-[#0031f3] to-[#000F4C]",
+    bg: "bg-[#EFF4FD]",
+    iconText: "text-[#0031f3]",
     content: [
       "يمكن إلغاء الطلب قبل التجهيز أو الشحن، أما إذا تم شحن الطلب فيتم التعامل معه وفق سياسة الاسترجاع المعتمدة.",
     ],
@@ -122,10 +122,10 @@ export default function ReturnPolicyClient() {
   } as React.HTMLAttributes<HTMLElement>);
 
   return (
-    <main className="min-h-screen bg-[#E6F2F8] overflow-x-hidden" dir="rtl">
+    <main className="min-h-screen bg-white overflow-x-hidden" dir="rtl">
 
       {/* ════════ HERO ════════ */}
-      <section className="relative w-full overflow-hidden" style={{ background: 'linear-gradient(to bottom left, #0a3550, #0F4C6E, #1F6F8B)' }}>
+      <section className="relative w-full overflow-hidden" style={{ background: 'linear-gradient(to bottom left, #000F4C, #0031f3, #1A59FD)' }}>
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-white/5 blur-[80px]" />
           <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-indigo-300/10 blur-[60px]" />
@@ -137,22 +137,22 @@ export default function ReturnPolicyClient() {
         />
         <div className="relative w-full px-5 sm:px-12 lg:px-20 py-20 sm:py-32 text-center text-white">
           <div {...anim(100)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium text-blue-100 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#7CC043] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             الشروط والسياسات
           </div>
           <h1 {...anim(220)} className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-5 leading-tight tracking-tight">
             سياسة الاستبدال
-            <span className="block text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(to left, #B8D8EC, #ffffff)' }}>
+            <span className="block text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(to left, #c7d7fd, #ffffff)' }}>
               والاسترجاع
             </span>
           </h1>
-          <p {...anim(360)} className="text-[#B8D8EC]/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p {...anim(360)} className="text-[#c7d7fd]/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
             الشروط المنظمة لطلبات الإلغاء والاستبدال والاسترجاع داخل مؤسسة سهلناها التقنية
           </p>
         </div>
         <div className="absolute bottom-0 left-0 w-full">
           <svg viewBox="0 0 1440 70" className="w-full h-12 sm:h-16" preserveAspectRatio="none">
-            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#E6F2F8" />
+            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
@@ -161,7 +161,7 @@ export default function ReturnPolicyClient() {
       <section className="w-full max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 py-8 sm:py-10 space-y-4 sm:space-y-5">
         {sections.map((s, i) => (
           <FadeUp key={s.title} delay={i * 100}>
-            <div className="group bg-white rounded-2xl sm:rounded-3xl border border-[#B8D8EC] shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+            <div className="group bg-white rounded-2xl sm:rounded-3xl border border-[#c7d7fd] shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
               <div className="flex flex-col sm:flex-row">
                 <div className={`w-full h-1.5 sm:w-1.5 sm:h-auto bg-linear-to-r sm:bg-linear-to-b ${s.gradient} shrink-0`} />
                 <div className="flex-1 p-4 sm:p-7">

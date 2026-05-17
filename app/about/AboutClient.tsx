@@ -81,19 +81,19 @@ const IconStar = () => (
 
 /* ── Data ── */
 const stats = [
-  { value: "١٠٠٪", label: "ضمان الجودة",  Icon: IconShield,  gradient: "from-[#0F4C6E] to-[#1F6F8B]",  ring: "ring-[#B8D8EC]",  text: "text-[#0F4C6E]"  },
-  { value: "٢٤/٧",  label: "دعم فني",      Icon: IconHeadset, gradient: "from-[#0a3550] to-[#0F4C6E]",  ring: "ring-[#B8D8EC]",  text: "text-[#0a3550]"  },
-  { value: "٠٪",    label: "بدون فوائد",   Icon: IconPercent, gradient: "from-[#7CC043] to-[#5a9030]",  ring: "ring-[#d4edba]",  text: "text-[#5a9030]"  },
-  { value: "سريع",  label: "توصيل",        Icon: IconTruck,   gradient: "from-[#1F6F8B] to-[#0a3550]",  ring: "ring-[#B8D8EC]",  text: "text-[#1F6F8B]"  },
+  { value: "١٠٠٪", label: "ضمان الجودة",  Icon: IconShield,  gradient: "from-[#0031f3] to-[#1A59FD]",  ring: "ring-[#c7d7fd]",  text: "text-[#0031f3]"  },
+  { value: "٢٤/٧",  label: "دعم فني",      Icon: IconHeadset, gradient: "from-[#000F4C] to-[#0031f3]",  ring: "ring-[#c7d7fd]",  text: "text-[#000F4C]"  },
+  { value: "٠٪",    label: "بدون فوائد",   Icon: IconPercent, gradient: "from-[#1A59FD] to-[#0031f3]",  ring: "ring-[#c7d7fd]",  text: "text-[#1A59FD]"  },
+  { value: "سريع",  label: "توصيل",        Icon: IconTruck,   gradient: "from-[#0031f3] to-[#000F4C]",  ring: "ring-[#c7d7fd]",  text: "text-[#0031f3]"  },
 ];
 
 const sections = [
   {
     Icon: IconStore,
     title: "من نحن",
-    gradient: "from-[#0F4C6E] to-[#1F6F8B]",
-    bg: "bg-[#E6F2F8]",
-    iconText: "text-[#0F4C6E]",
+    gradient: "from-[#0031f3] to-[#1A59FD]",
+    bg: "bg-[#EFF4FD]",
+    iconText: "text-[#0031f3]",
     content: [
       "مؤسسة سهلناها التقنية هي متجر إلكتروني متخصص في تقديم المنتجات والخدمات بجودة عالية وتجربة شراء سهلة وآمنة تناسب احتياجات العملاء.",
       "نحن نحرص على توفير أفضل الحلول والعروض مع الاهتمام بالتفاصيل التي تمنح العميل تجربة احترافية بداية من تصفح المنتجات وحتى إتمام الطلب.",
@@ -103,9 +103,9 @@ const sections = [
   {
     Icon: IconTarget,
     title: "رؤيتنا",
-    gradient: "from-[#0a3550] to-[#0F4C6E]",
-    bg: "bg-[#ddeef7]",
-    iconText: "text-[#0a3550]",
+    gradient: "from-[#000F4C] to-[#0031f3]",
+    bg: "bg-[#e8effc]",
+    iconText: "text-[#000F4C]",
     content: [
       "تقديم تجربة تسوق إلكترونية موثوقة وسريعة ومريحة، مع الحفاظ على أعلى معايير الجودة وخدمة العملاء.",
     ],
@@ -113,9 +113,9 @@ const sections = [
   {
     Icon: IconStar,
     title: "رسالتنا",
-    gradient: "from-[#7CC043] to-[#5a9030]",
-    bg: "bg-[#eaf5d8]",
-    iconText: "text-[#5a9030]",
+    gradient: "from-[#1A59FD] to-[#0031f3]",
+    bg: "bg-[#EFF4FD]",
+    iconText: "text-[#1A59FD]",
     content: [
       "نسعى إلى بناء ثقة طويلة الأمد مع عملائنا من خلال منتجات مميزة، دعم سريع، وشفافية كاملة في التعامل.",
     ],
@@ -148,15 +148,15 @@ export default function AboutClient() {
     } as React.HTMLAttributes<HTMLElement>);
 
   return (
-    <main className="min-h-screen bg-[#E6F2F8] overflow-x-hidden" dir="rtl">
+    <main className="min-h-screen bg-white overflow-x-hidden" dir="rtl">
 
       {/* ════════ HERO ════════ */}
-      <section className="relative w-full overflow-hidden" style={{ background: 'linear-gradient(to bottom left, #0a3550, #0F4C6E, #1F6F8B)' }}>
+      <section className="relative w-full overflow-hidden" style={{ background: 'linear-gradient(to bottom left, #000F4C, #0031f3, #1A59FD)' }}>
 
         {/* floating blobs */}
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-white/5 blur-[80px]" />
-          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-indigo-300/10 blur-[60px]" />
+          <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-blue-300/10 blur-[60px]" />
           <div className="absolute bottom-0 left-1/2 w-[600px] h-40 -translate-x-1/2 bg-blue-900/30 blur-[50px]" />
         </div>
 
@@ -167,19 +167,19 @@ export default function AboutClient() {
         />
 
         <div className="relative w-full px-5 sm:px-12 lg:px-20 py-20 sm:py-32 text-center text-white">
-          <div {...anim(100)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium text-[#B8D8EC] mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#7CC043] animate-pulse" />
+          <div {...anim(100)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 text-xs sm:text-sm font-medium text-[#c7d7fd] mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             تعرف علينا
           </div>
 
           <h1 {...anim(220)} className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-5 leading-tight tracking-tight">
             مؤسسة سهلناها
-            <span className="block text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(to left, #B8D8EC, #ffffff)' }}>
+            <span className="block text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(to left, #c7d7fd, #ffffff)' }}>
               التقنية
             </span>
           </h1>
 
-          <p {...anim(360)} className="text-[#B8D8EC]/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p {...anim(360)} className="text-[#c7d7fd]/90 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto leading-relaxed">
             تعرف على نشاط المتجر ورؤيتنا والخدمات التي نقدمها لعملائنا
           </p>
         </div>
@@ -187,7 +187,7 @@ export default function AboutClient() {
         {/* wave divider */}
         <div className="absolute bottom-0 left-0 w-full">
           <svg viewBox="0 0 1440 70" className="w-full h-12 sm:h-16" preserveAspectRatio="none">
-            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#E6F2F8" />
+            <path d="M0,35 C240,70 480,0 720,35 C960,70 1200,0 1440,35 L1440,70 L0,70 Z" fill="#ffffff" />
           </svg>
         </div>
       </section>
@@ -197,7 +197,7 @@ export default function AboutClient() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {stats.map((s, i) => (
             <FadeUp key={s.label} delay={i * 90}>
-              <div className="group relative bg-white rounded-2xl border border-[#B8D8EC] shadow-sm p-3 sm:p-5 text-center overflow-hidden hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300">
+              <div className="group relative bg-white rounded-2xl border border-[#c7d7fd] shadow-sm p-3 sm:p-5 text-center overflow-hidden hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300">
                 <div className={`absolute top-0 left-0 w-full h-1 bg-linear-to-l ${s.gradient}`} />
                 <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-linear-to-br ${s.gradient} flex items-center justify-center mx-auto mb-2 sm:mb-3 text-white shadow-md group-hover:scale-110 transition-transform duration-300`}>
                   <s.Icon />
@@ -214,7 +214,7 @@ export default function AboutClient() {
       <section className="w-full max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 py-8 sm:py-10 space-y-4 sm:space-y-5">
         {sections.map((s, i) => (
           <FadeUp key={s.title} delay={i * 100}>
-            <div className="group bg-white rounded-2xl sm:rounded-3xl border border-[#B8D8EC] shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+            <div className="group bg-white rounded-2xl sm:rounded-3xl border border-[#c7d7fd] shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
               <div className="flex flex-col sm:flex-row">
                 <div className={`w-full h-1.5 sm:w-1.5 sm:h-auto bg-linear-to-r sm:bg-linear-to-b ${s.gradient} shrink-0`} />
                 <div className="flex-1 p-4 sm:p-7">
