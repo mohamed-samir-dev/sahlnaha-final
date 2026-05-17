@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   IoPersonOutline, IoCardOutline, IoCallOutline, IoLocationOutline,
@@ -52,6 +52,7 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
   const [downPaymentExtra, setDownPaymentExtra] = useState<number>(0);
   const downPayment = minDownPayment + downPaymentExtra;
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const fieldRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const monthlyPayment = useMemo(() => {
     if (installmentType === "full") return 0;
@@ -85,8 +86,14 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
     else if (!/^05\d{8}$/.test(whatsapp.trim())) e.whatsapp = "يجب أن يبدأ بـ 05 ويتكون من 10 أرقام";
     if (!address.trim()) e.address = "مطلوب";
     setErrors(e);
-    if (Object.keys(e).length === 0)
-      onSubmit({ name, nationalId, whatsapp, address, installmentType, months, downPayment });
+    if (Object.keys(e).length > 0) {
+      const firstKey = ["name", "nationalId", "whatsapp", "address"].find((k) => e[k]);
+      if (firstKey && fieldRefs.current[firstKey]) {
+        fieldRefs.current[firstKey]!.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+    onSubmit({ name, nationalId, whatsapp, address, installmentType, months, downPayment });
   };
 
   return (
@@ -107,18 +114,26 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Field label="الاسم كاملاً" icon={<IoPersonOutline size={11} />} error={errors.name}>
-              <input value={name} onChange={(e) => { setName(e.target.value.replace(/[^a-zA-Z\u0600-\u06FF\s]/g, "")); setErrors((p) => ({ ...p, name: "" })); }} placeholder="محمد أحمد" className={inputClass("name")} />
-            </Field>
-            <Field label="رقم الهوية / الإقامة" icon={<IoCardOutline size={11} />} error={errors.nationalId}>
-              <input value={nationalId} onChange={(e) => { setNationalId(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, nationalId: "" })); }} placeholder="1XXXXXXXXX" maxLength={10} className={inputClass("nationalId")} />
-            </Field>
-            <Field label="رقم الواتساب" icon={<IoCallOutline size={11} />} error={errors.whatsapp}>
-              <input type="tel" value={whatsapp} onChange={(e) => { setWhatsapp(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, whatsapp: "" })); }} placeholder="05XXXXXXXX" className={inputClass("whatsapp")} />
-            </Field>
-            <Field label="العنوان" icon={<IoLocationOutline size={11} />} error={errors.address}>
-              <input value={address} onChange={(e) => { setAddress(e.target.value); setErrors((p) => ({ ...p, address: "" })); }} placeholder="المدينة - الحي - الشارع" className={inputClass("address")} />
-            </Field>
+            <div ref={(el) => { fieldRefs.current.name = el; }}>
+              <Field label="الاسم كاملاً" icon={<IoPersonOutline size={11} />} error={errors.name}>
+                <input value={name} onChange={(e) => { setName(e.target.value.replace(/[^a-zA-Z\u0600-\u06FF\s]/g, "")); setErrors((p) => ({ ...p, name: "" })); }} placeholder="محمد أحمد" className={inputClass("name")} />
+              </Field>
+            </div>
+            <div ref={(el) => { fieldRefs.current.nationalId = el; }}>
+              <Field label="رقم الهوية / الإقامة" icon={<IoCardOutline size={11} />} error={errors.nationalId}>
+                <input value={nationalId} onChange={(e) => { setNationalId(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, nationalId: "" })); }} placeholder="1XXXXXXXXX" maxLength={10} className={inputClass("nationalId")} />
+              </Field>
+            </div>
+            <div ref={(el) => { fieldRefs.current.whatsapp = el; }}>
+              <Field label="رقم الواتساب" icon={<IoCallOutline size={11} />} error={errors.whatsapp}>
+                <input type="tel" value={whatsapp} onChange={(e) => { setWhatsapp(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, whatsapp: "" })); }} placeholder="05XXXXXXXX" className={inputClass("whatsapp")} />
+              </Field>
+            </div>
+            <div ref={(el) => { fieldRefs.current.address = el; }}>
+              <Field label="العنوان" icon={<IoLocationOutline size={11} />} error={errors.address}>
+                <input value={address} onChange={(e) => { setAddress(e.target.value); setErrors((p) => ({ ...p, address: "" })); }} placeholder="المدينة - الحي - الشارع" className={inputClass("address")} />
+              </Field>
+            </div>
           </div>
         </div>
       </div>

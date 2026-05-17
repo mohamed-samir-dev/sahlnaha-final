@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   IoCartOutline, IoChevronBack, IoRocketOutline,
-  IoShieldCheckmarkOutline, IoCheckmarkCircle, IoStorefrontOutline
+  IoShieldCheckmarkOutline, IoStorefrontOutline
 } from "react-icons/io5";
 import { useCartStore } from "../store/cartStore";
 import type { CustomerInfo } from "../store/cartStore";
@@ -19,8 +19,6 @@ export default function CartPage() {
   const router = useRouter();
   const { items, removeItem, updateQty, totalPrice, totalItems, setCustomer, customer } = useCartStore();
   const [mounted, setMounted] = useState(false);
-  const [step, setStep] = useState<"items" | "form">("items");
-
   useEffect(() => { setMounted(true); window.scrollTo(0, 0); }, []);
 
   const total = mounted ? totalPrice() : 0;
@@ -156,101 +154,56 @@ export default function CartPage() {
             </motion.div>
           </div>
 
-          {/* Steps indicator */}
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex items-center gap-3 mt-6">
-            <button onClick={() => setStep("items")} className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${step === "items" ? "bg-white text-[#225EFF] shadow-[0_4px_16px_rgba(0,0,0,0.15)]" : "bg-white/10 text-white/60 border border-white/15"}`}>
-              <IoCartOutline size={14} />
-              المنتجات
-            </button>
-            <div className="flex-1 h-px bg-white/20" />
-            <button onClick={() => items.length > 0 && setStep("form")} className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${step === "form" ? "bg-white text-[#225EFF] shadow-[0_4px_16px_rgba(0,0,0,0.15)]" : "bg-white/10 text-white/60 border border-white/15"}`}>
-              <IoCheckmarkCircle size={14} />
-              إتمام الطلب
-            </button>
-          </motion.div>
+
         </div>
       </div>
 
       {/* ── Content ── */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-8 -mt-6 pb-16">
-        <AnimatePresence mode="wait">
-          {step === "items" ? (
-            <motion.div key="items" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="space-y-3">
-              {/* Items */}
-              <AnimatePresence>
-                {items.map(({ product, qty }, i) => (
-                  <CartItem key={product._id} product={product} qty={qty} index={i} onUpdateQty={updateQty} onRemove={removeItem} />
-                ))}
-              </AnimatePresence>
-
-              {/* Summary Card */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: items.length * 0.08 + 0.1 }}
-                className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#225EFF] to-[#0a3adb] p-5 text-white shadow-[0_16px_48px_rgba(34,94,255,0.3)]">
-                <div className="absolute top-0 right-0 w-40 h-40 bg-[#7FA8FF]/20 rounded-full translate-x-16 -translate-y-16 pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#AAD6FF]/10 rounded-full -translate-x-10 translate-y-10 pointer-events-none" />
-                <div className="relative">
-                  <div className="flex justify-between items-center text-sm mb-2">
-                    <span className="text-white/60">المجموع الفرعي</span>
-                    <span className="font-bold">{fmt(total)} ر.س</span>
-                  </div>
-                  <div className="flex justify-between items-center text-sm mb-3">
-                    <span className="text-white/60">التوصيل</span>
-                    <span className="text-[#AAD6FF] font-bold flex items-center gap-1 text-xs"><IoRocketOutline size={13} /> مجاني</span>
-                  </div>
-                  <div className="border-t border-white/10 pt-3 flex justify-between items-center">
-                    <span className="font-bold">الإجمالي الكلي</span>
-                    <span className="text-2xl font-black">{fmt(total)} <span className="text-sm font-medium text-white/50">ر.س</span></span>
-                  </div>
-                  <div className="mt-4 flex items-center justify-center gap-4 pt-3 border-t border-white/10">
-                    <div className="flex items-center gap-1.5 text-white/40 text-[11px]"><IoShieldCheckmarkOutline size={13} /> دفع آمن 100%</div>
-                    <div className="w-px h-3 bg-white/10" />
-                    <div className="flex items-center gap-1.5 text-white/40 text-[11px]"><IoRocketOutline size={13} /> توصيل سريع</div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Next Step Button */}
-              <motion.button
-                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-                whileHover={{ scale: 1.01, y: -2 }} whileTap={{ scale: 0.98 }}
-                onClick={() => setStep("form")}
-                className="w-full relative overflow-hidden bg-gradient-to-r from-[#225EFF] to-[#7FA8FF] text-white font-black py-4 rounded-2xl text-base shadow-[0_8px_32px_rgba(34,94,255,0.4)] hover:shadow-[0_16px_48px_rgba(34,94,255,0.5)] transition-shadow">
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  <IoCheckmarkCircle size={20} />
-                  متابعة لإتمام الطلب
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full animate-[shimmer_2.5s_infinite]" />
-              </motion.button>
-            </motion.div>
-          ) : (
-            <motion.div key="form" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-              {/* Mini order summary */}
-              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-[#225EFF]/10 shadow-[0_4px_20px_rgba(34,94,255,0.07)] mb-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#225EFF]/10 to-[#7FA8FF]/10 flex items-center justify-center border border-[#225EFF]/10">
-                    <IoCartOutline size={16} className="text-[#225EFF]" />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-400 font-medium">{count} منتج</p>
-                    <p className="text-sm font-black text-gray-800">{fmt(total)} ر.س</p>
-                  </div>
-                </div>
-                <button onClick={() => setStep("items")} className="text-xs text-[#225EFF] font-bold hover:underline">تعديل</button>
-              </div>
-
-              <CustomerForm
-                total={total}
-                itemCount={count}
-                initialData={customer}
-                installmentMonths={installmentMonths}
-                onSubmit={(info: CustomerInfo) => {
-                  setCustomer(info);
-                  router.push("/checkout");
-                }}
-              />
-            </motion.div>
-          )}
+      <div className="max-w-4xl mx-auto px-4 sm:px-8 -mt-6 pb-16 space-y-3">
+        {/* Items */}
+        <AnimatePresence>
+          {items.map(({ product, qty }, i) => (
+            <CartItem key={product._id} product={product} qty={qty} index={i} onUpdateQty={updateQty} onRemove={removeItem} />
+          ))}
         </AnimatePresence>
+
+        {/* Summary Card */}
+        {/* <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: items.length * 0.08 + 0.1 }}
+          className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#225EFF] to-[#0a3adb] p-5 text-white shadow-[0_16px_48px_rgba(34,94,255,0.3)]">
+          <div className="absolute top-0 right-0 w-40 h-40 bg-[#7FA8FF]/20 rounded-full translate-x-16 -translate-y-16 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#AAD6FF]/10 rounded-full -translate-x-10 translate-y-10 pointer-events-none" />
+          <div className="relative">
+            <div className="flex justify-between items-center text-sm mb-2">
+              <span className="text-white/60">المجموع الفرعي</span>
+              <span className="font-bold">{fmt(total)} ر.س</span>
+            </div>
+            <div className="flex justify-between items-center text-sm mb-3">
+              <span className="text-white/60">التوصيل</span>
+              <span className="text-[#AAD6FF] font-bold flex items-center gap-1 text-xs"><IoRocketOutline size={13} /> مجاني</span>
+            </div>
+            <div className="border-t border-white/10 pt-3 flex justify-between items-center">
+              <span className="font-bold">الإجمالي الكلي</span>
+              <span className="text-2xl font-black">{fmt(total)} <span className="text-sm font-medium text-white/50">ر.س</span></span>
+            </div>
+            <div className="mt-4 flex items-center justify-center gap-4 pt-3 border-t border-white/10">
+              <div className="flex items-center gap-1.5 text-white/40 text-[11px]"><IoShieldCheckmarkOutline size={13} /> دفع آمن 100%</div>
+              <div className="w-px h-3 bg-white/10" />
+              <div className="flex items-center gap-1.5 text-white/40 text-[11px]"><IoRocketOutline size={13} /> توصيل سريع</div>
+            </div>
+          </div>
+        </motion.div> */}
+
+        {/* Customer Form + Payment */}
+        <CustomerForm
+          total={total}
+          itemCount={count}
+          initialData={customer}
+          installmentMonths={installmentMonths}
+          onSubmit={(info: CustomerInfo) => {
+            setCustomer(info);
+            router.push("/checkout");
+          }}
+        />
       </div>
     </main>
   );
