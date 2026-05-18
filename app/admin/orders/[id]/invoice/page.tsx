@@ -95,7 +95,7 @@ export default function InvoicePrintPage() {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 280,
-            opacity: 0.75,
+            opacity: 0.35,
             pointerEvents: "none",
             zIndex: 9999,
           }}

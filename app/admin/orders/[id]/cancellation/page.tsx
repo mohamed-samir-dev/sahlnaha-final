@@ -71,7 +71,7 @@ export default function CancellationPage() {
   return (
     <div style={{ fontFamily: "Arial, sans-serif", padding: 24, maxWidth: 900, margin: "0 auto", direction: "rtl", position: "relative", backgroundColor: "#fff", minHeight: "100vh" }}>
       {company.cancelStamp && (
-        <img src={company.cancelStamp} alt="stamp" style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 240, opacity: 0.75, pointerEvents: "none", zIndex: 9999 }} />
+        <img src={company.cancelStamp} alt="stamp" style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 240, opacity: 0.35, pointerEvents: "none", zIndex: 9999 }} />
       )}
       <style>{`
         * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }

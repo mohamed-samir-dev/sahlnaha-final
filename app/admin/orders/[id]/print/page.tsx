@@ -73,7 +73,7 @@ export default function PrintOrderPage() {
             bottom: 450,
             left: 24,
             width: 180,
-            opacity: 0.6,
+            opacity: 0.35,
             pointerEvents: "none",
             zIndex: 9999,
           }}
@@ -183,7 +183,7 @@ export default function PrintOrderPage() {
               <p style={{ margin: 0 }}>التوصيل مجاناً من خلال شركة. مندوب توصيل , خلال 24 ساعة من دفع الدفعة المقدمة</p>
             </td>
             <td style={{ padding: 12, textAlign: "right", direction: "rtl", lineHeight: 2 }}>
-              <p style={{ margin: 0 }}>الرقم الضريبي : 314539044300003</p>
+              <p style={{ margin: 0 }}>الرقم الضريبي : 7054284067</p>
               <p style={{ margin: 0 }}>العرض شامل الهدايا</p>
             </td>
           </tr>
