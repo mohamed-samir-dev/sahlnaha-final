@@ -7,9 +7,9 @@ import { Smartphone, Laptop, Tablet, Watch, Headphones, Cable, ArrowLeft } from 
 
 const categories = [
   { name: "الهواتف", description: "أحدث الهواتف الذكية", image: "/phone.webp", href: "/smartphones", icon: Smartphone },
-  { name: "اللابتوب", description: "لابتوبات بأداء عالي", image: "/lap.webp", href: "/laptops", icon: Laptop },
-  { name: "التابلت", description: "تابلتات لكل الاستخدامات", image: "/tap.webp", href: "/tablets", icon: Tablet },
-  { name: "الساعات الذكية", description: "ساعات ذكية أنيقة", image: "/watch.webp", href: "/smart-watches", icon: Watch },
+  { name: "اللابتوب", description: "لابتوبات بأداء عالي", image: "/lap.webp", href: "/laptops/macbook-air", icon: Laptop },
+  { name: "التابلت", description: "تابلتات لكل الاستخدامات", image: "/tap.webp", href: "/tablets/ipad-air", icon: Tablet },
+  { name: "الساعات الذكية", description: "ساعات ذكية أنيقة", image: "/watch.webp", href: "/apple-watches/se", icon: Watch },
   { name: "السماعات", description: "سماعات بجودة صوت عالية", image: "/ear.webp", href: "/audio", icon: Headphones },
 ];
 
