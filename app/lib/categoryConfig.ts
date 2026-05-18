@@ -267,7 +267,7 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "ايبادات ابل",
     parentLabel: "الاجهزة اللوحية ايبادات",
     parentHref: "/tablets",
-    filters: { brand: "Apple", nameIncludes: ["ipad air", "ايباد اير", "آيباد إير", "آيباد اير", "آيباد"] },
+    filters: { category: "tablet" },
   },
 
   // ─── Accessories ───────────────────────────────────────────
