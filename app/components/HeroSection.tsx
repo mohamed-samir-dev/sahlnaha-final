@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 const slides = [
   {
@@ -9,18 +10,24 @@ const slides = [
     title: "سهلناها",
     subtitle: "التقنية للأجهزة الإلكترونية",
     description: "أحدث الأجهزة • أفضل الأسعار • تجربة تسوق سهلة وآمنة",
+    primaryHref: "/smartphones",
+    secondaryHref: "/smartphones",
   },
   {
     image: "/hero2.webp",
     title: "iPhone 17 Pro Max",
     subtitle: "قوة لا حدود لها",
     description: "أداء خارق وكاميرا ثورية بتصميم تيتانيوم فاخر",
+    primaryHref: "/smartphones/iphone-17-pro-max",
+    secondaryHref: "/smartphones/iphone-17-pro-max",
   },
   {
     image: "/hero3.webp",
     title: "Samsung Galaxy",
     subtitle: "ابتكار المستقبل",
     description: "شاشة مذهلة وذكاء اصطناعي متقدم في جهاز واحد",
+    primaryHref: "/smartphones/samsung-galaxy-s26-ultra",
+    secondaryHref: "/smartphones/samsung-galaxy-s26-ultra",
   },
 ];
 
@@ -127,20 +134,22 @@ export default function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.7 }}
               >
-                <motion.button
-                  className="px-5 py-2 sm:px-7 sm:py-2.5 md:px-9 md:py-3.5 bg-gradient-to-r from-[#06399B] to-[#3258B1] text-white font-bold rounded-full text-xs sm:text-sm md:text-base shadow-[0_4px_25px_rgba(6,57,155,0.5)] hover:shadow-[0_8px_35px_rgba(6,57,155,0.7)] transition-all border border-white/10"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  تسوّق الآن
-                </motion.button>
-                <motion.button
-                  className="px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3.5 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-full text-xs sm:text-sm md:text-base border border-white/20 hover:bg-white/20 transition-all"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  اكتشف المزيد
-                </motion.button>
+                <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
+                  <Link
+                    href={slides[current].primaryHref}
+                    className="block px-5 py-2 sm:px-7 sm:py-2.5 md:px-9 md:py-3.5 bg-gradient-to-r from-[#06399B] to-[#3258B1] text-white font-bold rounded-full text-xs sm:text-sm md:text-base shadow-[0_4px_25px_rgba(6,57,155,0.5)] hover:shadow-[0_8px_35px_rgba(6,57,155,0.7)] transition-all border border-white/10"
+                  >
+                    تسوّق الآن
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link
+                    href={slides[current].secondaryHref}
+                    className="block px-4 py-2 sm:px-6 sm:py-2.5 md:px-7 md:py-3.5 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-full text-xs sm:text-sm md:text-base border border-white/20 hover:bg-white/20 transition-all"
+                  >
+                    اكتشف المزيد
+                  </Link>
+                </motion.div>
               </motion.div>
             </motion.div>
           </AnimatePresence>
