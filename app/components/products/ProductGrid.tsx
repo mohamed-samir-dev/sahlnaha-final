@@ -69,8 +69,36 @@ function getCategoryHref(category: string): string {
   return `/search?q=${encodeURIComponent(category)}`;
 }
 
+function pickFirst4(items: Product[]): Product[] {
+  const parseStorage = (s?: string) => {
+    if (!s) return 0;
+    const n = parseFloat(s);
+    if (s.includes("تيرا") || s.toLowerCase().includes("tb")) return n * 1024;
+    return n || 0;
+  };
+  const sorted = [...items].sort((a, b) => parseStorage(a.storage) - parseStorage(b.storage));
+  const result: Product[] = [];
+  const usedColors = new Set<string>();
+  // First pass: pick unique colors (256GB first)
+  for (const p of sorted) {
+    if (result.length >= LIMIT) break;
+    if (!usedColors.has(p.color ?? "")) {
+      usedColors.add(p.color ?? "");
+      result.push(p);
+    }
+  }
+  // Second pass: fill remaining slots with 512GB if needed
+  if (result.length < LIMIT) {
+    for (const p of sorted) {
+      if (result.length >= LIMIT) break;
+      if (!result.includes(p)) result.push(p);
+    }
+  }
+  return result;
+}
+
 function CategoryRow({ category, items, isFirst }: { category: string; items: Product[]; isFirst?: boolean }) {
-  const visible = items.slice(0, LIMIT);
+  const visible = pickFirst4(items);
   const href = getCategoryHref(category);
 
   return (
