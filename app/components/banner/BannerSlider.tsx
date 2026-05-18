@@ -57,7 +57,7 @@ export default function BannerSlider({ images }: { images: string[] }) {
           style={{ boxShadow: "0 4px 24px rgba(15,76,110,0.12)" }}
         >
           <div
-            className="relative w-full aspect-[1.4/1] sm:aspect-[1.8/1]"
+            className="relative w-full aspect-[1.9/1] sm:aspect-[2.2/1]"
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
@@ -92,7 +92,7 @@ export default function BannerSlider({ images }: { images: string[] }) {
                   className="h-full"
                   style={{
                     width: `${progress}%`,
-                    background: "linear-gradient(90deg, #225EFF, #04143E)",
+                    background: "linear-gradient(90deg, #7CC043, #5FA32E)",
                   }}
                 />
               </div>
@@ -113,7 +113,7 @@ export default function BannerSlider({ images }: { images: string[] }) {
                   width: i === current ? 28 : 10,
                   height: 10,
                   borderRadius: 5,
-                  backgroundColor: i === current ? "#225EFF" : "#d1d5db",
+                  backgroundColor: i === current ? "#1F6F8B" : "#d1d5db",
                 }}
               />
             ))}

@@ -1,4 +1,4 @@
-import Banner from "./components/banner/Banner";
+import HeroSection from "./components/HeroSection";
 import BrowseCategories from "./components/BrowseCategories";
 import PromoBanners from "./components/PromoBanners";
 import ProductGrid from "./components/products/ProductGrid";
@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main className="min-h-screen relative">
       <HomeBackground />
-      <Banner />
+      <HeroSection />
       <BrowseCategories />
       <ProductGrid />
       <PromoBanners />
