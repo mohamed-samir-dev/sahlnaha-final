@@ -48,7 +48,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     : `${title}${parts.length ? " - " + parts.join(" | ") : ""} - متوفر في ${siteName}`;
 
   const rawImg = product.images?.[0] || product.image || "";
-  const imageUrl = rawImg.startsWith("http") ? rawImg : rawImg ? `${BACKEND}${rawImg}` : "";
+  const rawImageUrl = rawImg.startsWith("http") ? rawImg : rawImg ? `${BACKEND}${rawImg}` : "";
+  const imageUrl = rawImageUrl ? `${SITE_URL}/api/file-proxy?url=${encodeURIComponent(rawImageUrl)}` : "";
 
   return {
     title,

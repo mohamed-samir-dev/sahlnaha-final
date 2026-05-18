@@ -21,8 +21,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteName = c.nameAr || "مؤسسة سهلناها التقنية";
   const description = c.details || "مؤسسة سهلناها التقنية - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";
 
-  const logoUrl = c.logo
+  const rawLogoUrl = c.logo
     ? (c.logo.startsWith("http") ? c.logo : `${BACKEND}${c.logo}`)
+    : null;
+  const logoUrl = rawLogoUrl
+    ? `${SITE_URL}/api/file-proxy?url=${encodeURIComponent(rawLogoUrl)}`
     : `${SITE_URL}/android-chrome-512x512.png`;
 
   return {
