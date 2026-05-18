@@ -101,7 +101,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
             <span className="cat-breadcrumb-pill cat-breadcrumb-active">{label}</span>
           </div>
 
-          <div className="pb-12 sm:pb-16">
+          <div className="pb-20 sm:pb-16">
             <div className="flex items-start gap-3.5 sm:gap-4">
               <div className="cat-icon-box">
                 <HiOutlineSparkles className="text-[#1752FC] text-xl sm:text-2xl" />
