@@ -357,6 +357,16 @@ body.checkout-page {
   background: linear-gradient(135deg, #1752FC, #030D30);
   box-shadow: 0 4px 16px rgba(23,82,252,0.4);
 }
+.cat-pg-dots {
+  width: 32px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #A1A4C3;
+  font-size: 0.85rem;
+  user-select: none;
+}
 
 /* Home page flowing gradient */
 .home-gradient {
