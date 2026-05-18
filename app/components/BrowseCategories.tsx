@@ -59,7 +59,7 @@ export default function BrowseCategories() {
   }, [scrollTo]);
 
   return (
-    <section className="max-w-7xl mx-auto px-3 sm:px-5 mt-20 mb-8" dir="rtl">
+    <section className="max-w-7xl mx-auto px-3 sm:px-5 mt-8 sm:mt-20 mb-8" dir="rtl">
       {/* Header */}
       <motion.div
         className="text-center mb-8"
