@@ -10,14 +10,14 @@ const banners = [
     title: "ادفع بكل أمان",
     description: "طرق دفع متعددة وآمنة\nتجربة تسوق بدون قلق",
     button: "تعرّف على طرق الدفع",
-    href: "/about",
+    href: "/payment",
   },
   {
     image: "/offer.webp",
     title: "عروض حصرية",
     description: "خصومات تصل إلى 30%\nعلى منتجات مختارة لفترة محدودة",
     button: "تسوّق العروض",
-    href: "/search?q=عروض",
+    href: "/smartphones",
   },
 ];
 
