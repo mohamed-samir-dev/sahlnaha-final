@@ -15,7 +15,7 @@ export function useCompany() {
     fetch(`/api/admin/company`)
       .then((r) => r.json())
       .then((res) => {
-        const imageKeys = ["logo", "header", "footer", "stamp"];
+        const imageKeys = ["logo", "header", "footer", "stamp", "cancelStamp"];
         const merged: CompanyData = { ...defaultData };
         for (const k of Object.keys(defaultData)) {
           if (res[k] !== undefined && res[k] !== "") {
