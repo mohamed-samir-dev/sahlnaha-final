@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const config = slugConfigs[slug];
   const company = await getCompany();
 
-  const siteName = company.nameAr || "مؤسسة تبارك التقنية الذكية";
+  const siteName = company.nameAr || "مؤسسة سهلناها التقنية";
   const label = config?.label ?? slug;
   const parentLabel = config?.parentLabel ?? "";
 

@@ -101,7 +101,7 @@ export default function PrintPage({ order, fin, onClose }: PrintPageProps) {
             </div>
             <div className="p-3 text-right text-sm leading-7 text-black font-semibold" dir="rtl">
               <p>عميلنا العزيز،</p>
-              <p>شكرا لتسوقكم من {company.nameAr || "مؤسسة تبارك الذكية"}.</p>
+              <p>شكرا لتسوقكم من {company.nameAr || "مؤسسة سهلناها التقنية"}.</p>
               <p>لقد تم إنشاء طلبكم بنجاح.</p>
               <p>فيما يلي ملخص الطلب.</p>
             </div>

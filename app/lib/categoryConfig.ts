@@ -153,13 +153,13 @@ export const slugConfigs: Record<string, SlugConfig> = {
     label: "سامسونج جالاكسي S26 الترا",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "سامسونج جالاكسي S26 الترا" },
+    filters: { brand: "Samsung", category: "سامسونج جالاكسي S26" },
   },
   "samsung-galaxy-s26-plus": {
     label: "سامسونج جالاكسي S26 بلس",
     parentLabel: "الهواتف الذكية",
     parentHref: "/smartphones",
-    filters: { category: "سامسونج جالاكسي S26" },
+    filters: { brand: "Samsung", nameIncludes: ["S26 Plus", "S26 بلس", "جالاكسي S26 بلس"] },
   },
 
   // ─── Apple Watches ─────────────────────────────────────────

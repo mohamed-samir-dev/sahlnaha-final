@@ -91,7 +91,7 @@ export default function PrintOrderPage() {
               </td>
               <td style={{ padding: 12, fontSize: 13, lineHeight: 2, textAlign: "right", direction: "rtl" }}>
                 <p style={{ margin: 0 }}>عميلنا العزيز،</p>
-                <p style={{ margin: 0 }}>شكرا لتسوقكم من {company.nameAr || "مؤسسة تبارك الذكية"}.</p>
+                <p style={{ margin: 0 }}>شكرا لتسوقكم من {company.nameAr || "مؤسسة سهلناها التقنية"}.</p>
                 <p style={{ margin: 0 }}>لقد تم إنشاء طلبكم بنجاح.</p>
                 <p style={{ margin: 0 }}>فيما يلي ملخص الطلب.</p>
               </td>

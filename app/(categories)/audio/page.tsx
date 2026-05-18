@@ -17,7 +17,7 @@ async function getCompany() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
-  const siteName = company.nameAr || "مؤسسة تبارك التقنية الذكية";
+  const siteName = company.nameAr || "مؤسسة سهلناها التقنية";
   const title = `أجهزة صوت وسماعات | ${siteName}`;
   const description = `تسوق سماعات أبل وأجهزة الصوت بأفضل الأسعار في ${siteName}. شحن سريع وضمان معتمد.`;
   const logoUrl = company.logo
