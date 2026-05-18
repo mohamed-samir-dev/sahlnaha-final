@@ -11,7 +11,7 @@ export default function Home() {
       <HomeBackground />
       <HeroSection />
       <BrowseCategories />
-      <div className="mb-8 md:mb-0" />
+      <div className="mb-4 md:mb-8" />
       <ProductGrid />
       <PromoBanners />
       <CustomerReviews />
