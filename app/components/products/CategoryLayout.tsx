@@ -32,6 +32,16 @@ export default function CategoryLayout({ title, parentLabel, parentHref = "/", p
     gridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const getPageNumbers = (): (number | "...")[] => {
+    if (totalPages <= 5) return Array.from({ length: totalPages }, (_, i) => i + 1);
+    const pages: (number | "...")[] = [1];
+    if (page > 3) pages.push("...");
+    for (let i = Math.max(2, page - 1); i <= Math.min(totalPages - 1, page + 1); i++) pages.push(i);
+    if (page < totalPages - 2) pages.push("...");
+    pages.push(totalPages);
+    return pages;
+  };
+
   const currentProducts = products.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
   return (
@@ -145,19 +155,21 @@ export default function CategoryLayout({ title, parentLabel, parentHref = "/", p
                   <IoChevronForward size={18} />
                 </button>
 
-                <div className="flex items-center gap-1.5">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                    <button
-                      key={n}
-                      onClick={() => goToPage(n)}
-                      className={`cat-pg-num ${page === n ? "active" : ""}`}
-                    >
-                      {page === n && (
-                        <div className="absolute inset-0 cat-pg-active-bg rounded-xl" />
-                      )}
-                      <span className="relative z-10">{n}</span>
-                    </button>
-                  ))}
+                <div className="flex items-center gap-1">
+                  {getPageNumbers().map((n, i) =>
+                    n === "..." ? (
+                      <span key={`dots-${i}`} className="cat-pg-dots">…</span>
+                    ) : (
+                      <button
+                        key={n}
+                        onClick={() => goToPage(n)}
+                        className={`cat-pg-num ${page === n ? "active" : ""}`}
+                      >
+                        {page === n && <div className="absolute inset-0 cat-pg-active-bg rounded-xl" />}
+                        <span className="relative z-10">{n}</span>
+                      </button>
+                    )
+                  )}
                 </div>
 
                 <button
