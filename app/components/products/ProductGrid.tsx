@@ -157,9 +157,7 @@ export default function ProductGrid() {
       .map((s) => s.category)
       .filter((c, idx, arr) => arr.indexOf(c) === idx)
       .filter((c) => allCats.includes(c));
-    // الكاتيجوريز الجديدة اللي ما عندها setting تظهر في الآخر
-    const unconfigured = allCats.filter((c) => !settings.some((s) => s.category === c) && c !== "أخرى");
-    return [...orderedCats, ...unconfigured];
+    return orderedCats;
   }, [grouped, homeConfig]);
 
   if (loading) return (
