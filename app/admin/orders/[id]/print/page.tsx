@@ -73,7 +73,7 @@ export default function PrintOrderPage() {
             bottom: 450,
             left: 24,
             width: 180,
-            opacity: 0.35,
+            opacity: 0.55,
             pointerEvents: "none",
             zIndex: 9999,
           }}

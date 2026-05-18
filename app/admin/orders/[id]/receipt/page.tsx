@@ -139,7 +139,7 @@ export default function ReceiptPrintPage() {
             <div style={{ textAlign: "center", padding: "12px 8px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ fontWeight: "bold" }}>الختم</div>
               {company.stamp
-                ? <img src={company.stamp} alt="ختم" style={{ maxWidth: 90, maxHeight: 70, objectFit: "contain", opacity: 0.35 }} />
+                ? <img src={company.stamp} alt="ختم" style={{ maxWidth: 120, maxHeight: 100, objectFit: "contain", opacity: 0.55 }} />
                 : <div style={{ borderBottom: "1px solid #aaa", width: "80%" }}></div>
               }
             </div>
