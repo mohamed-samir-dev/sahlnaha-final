@@ -87,8 +87,9 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
   const siteName = company.nameAr || "مؤسسة سهلناها التقنية";
   const price = product?.salePrice || product?.price || 0;
-  const rawImg = product?.images?.[0] || product?.image || "";
-  const imageUrl = rawImg.startsWith("http") ? rawImg : rawImg ? `${BACKEND}${rawImg}` : "";
+  const rawImg2 = product?.images?.[0] || product?.image || "";
+  const rawImageUrl2 = rawImg2.startsWith("http") ? rawImg2 : rawImg2 ? `${BACKEND}${rawImg2}` : "";
+  const productImageUrl = rawImageUrl2 ? `${SITE_URL}/api/file-proxy?url=${encodeURIComponent(rawImageUrl2)}` : "";
 
   const jsonLd = product ? {
     "@context": "https://schema.org",
