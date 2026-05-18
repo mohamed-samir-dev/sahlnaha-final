@@ -96,7 +96,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
     "@type": "Product",
     name: product.name,
     description: product.description || product.name,
-    image: imageUrl,
+    image: productImageUrl,
     brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined,
     offers: {
       "@type": "Offer",
