@@ -4,7 +4,7 @@ import ClientLayout from "./components/ClientLayout";
 import Footer from "./components/Footer";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
-const SITE_URL = "https://tabarak-tech.com";
+const SITE_URL = "https://sahlnahastore.com";
 
 async function getCompany() {
   try {
