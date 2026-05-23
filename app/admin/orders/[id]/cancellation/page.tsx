@@ -42,8 +42,16 @@ export default function CancellationPage() {
   const [company, setCompany] = useState<Company>({});
 
   useEffect(() => {
-    if (order) setTimeout(() => window.print(), 500);
-  }, [order]);
+    if (!order || !company) return;
+    const images = document.querySelectorAll("img");
+    if (images.length === 0) { setTimeout(() => window.print(), 500); return; }
+    let loaded = 0;
+    const tryPrint = () => { if (++loaded >= images.length) window.print(); };
+    images.forEach((img) => {
+      if (img.complete) tryPrint();
+      else { img.onload = tryPrint; img.onerror = tryPrint; }
+    });
+  }, [order, company]);
 
   useEffect(() => {
     Promise.all([

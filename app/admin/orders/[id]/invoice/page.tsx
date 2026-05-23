@@ -47,7 +47,7 @@ export default function InvoicePrintPage() {
   }, []);
 
   useEffect(() => {
-    if (!order) return;
+    if (!order || !company) return;
     const images = document.querySelectorAll("img");
     if (images.length === 0) { setTimeout(() => window.print(), 500); return; }
     let loaded = 0;
@@ -56,7 +56,7 @@ export default function InvoicePrintPage() {
       if (img.complete) tryPrint();
       else { img.onload = tryPrint; img.onerror = tryPrint; }
     });
-  }, [order]);
+  }, [order, company]);
 
   useEffect(() => {
     Promise.all([
