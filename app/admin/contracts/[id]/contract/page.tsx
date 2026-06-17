@@ -50,19 +50,19 @@ export default function EmployeeContractPrint() {
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { background: #fff !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     @media print { @page { size: A4 portrait; margin: 0; } html, body { margin: 0 !important; padding: 0 !important; } }
-    body { font-family: "Times New Roman", serif; direction: rtl; color: #111; font-size: 13px; line-height: 1.85; }
+    body { font-family: "Times New Roman", serif; direction: rtl; color: #111; font-size: 14px; line-height: 1.9; }
     p, li { margin: 0; }
-    .section-title { font-size: 13px; font-weight: 700; border-bottom: 1px solid #111; padding-bottom: 3px; margin-bottom: 8px; letter-spacing: 0.5px; }
-    .info-grid { display: grid; grid-template-columns: 150px 1fr; row-gap: 2px; }
-    .info-grid span { padding: 2px 0; }
+    .section-title { font-size: 15px; font-weight: 700; border-bottom: 1px solid #111; padding-bottom: 4px; margin-bottom: 10px; letter-spacing: 0.5px; }
+    .info-grid { display: grid; grid-template-columns: 170px 1fr; row-gap: 4px; }
+    .info-grid span { padding: 3px 0; }
     .info-grid .lbl { color: #333; }
-    .clause { margin-bottom: 10px; }
-    .clause-head { font-weight: 700; margin-bottom: 2px; }
-    .clause-body { padding-right: 14px; }
-    .sig-line { display: inline-block; border-bottom: 1px solid #111; min-width: 140px; vertical-align: bottom; }
-    ul.tasks { margin: 0; padding-right: 18px; }
-    ul.tasks li { margin-bottom: 1px; }
-    .page-break { page-break-before: always; break-before: page; }
+    .clause { margin-bottom: 13px; }
+    .clause-head { font-weight: 700; margin-bottom: 4px; }
+    .clause-body { padding-right: 16px; }
+    .sig-line { display: inline-block; border-bottom: 1px solid #111; min-width: 160px; vertical-align: bottom; }
+    ul.tasks { margin: 0; padding-right: 20px; }
+    ul.tasks li { margin-bottom: 3px; }
+    .page-break { page-break-before: always; break-before: page; margin-top: 40px; }
   `;
 
   return (
@@ -78,7 +78,7 @@ export default function EmployeeContractPrint() {
         <hr style={{ border: "none", borderTop: "2px solid #111", marginBottom: 20 }} />
 
         {/* ── الأطراف ── */}
-        <div style={{ display: "flex", gap: 40, marginBottom: 20, fontSize: 13 }}>
+        <div style={{ display: "flex", gap: 40, marginBottom: 20, fontSize: 15 }}>
           <div style={{ flex: 1 }}>
             <p className="section-title">أولاً: الطرف الأول &nbsp;<span style={{ fontWeight: 400 }}>(صاحب العمل)</span></p>
             <div className="info-grid">
@@ -107,9 +107,9 @@ export default function EmployeeContractPrint() {
             { n: "الثاني",  t: "مكان العمل",   body: "يعمل الطرف الثاني داخل نطاق العمل حسب حاجة التشغيل." },
             { n: "الثالث",  t: "مدة العقد",    body: <>مدة هذا العقد: <strong>{contract.contractDuration} سنة / سنوات</strong>، تبدأ من: <strong>{formatDate(contract.startDate)} م</strong>، وتنتهي في: <strong>{formatDate(contract.endDate)} م</strong>. ويجوز تجديد العقد باتفاق الطرفين وفق أحكام نظام العمل السعودي.</> },
             { n: "الرابع",  t: "الراتب",       body: <>الراتب الشهري الأساسي: <strong>3,000 ريال سعودي فقط لا غير</strong>. ويُصرف الراتب في نهاية كل شهر ميلادي وفق الإجراءات المالية المعتمدة لدى الشركة.</> },
-            { n: "الخامس", t: "ساعات العمل",  body: <>تكون ساعات العمل الرسمية من: <strong>10:00 صباحاً حتى 4:00 مساءً</strong>، وذلك وفق نظام العمل السعودي وسياسات الشركة الداخلية.</> },
+            { n: "الخامس", t: "ساعات العمل",  body: <>تكون ساعات العمل الرسمية من: <strong>10:00 صباحاً حتى 4:00 مساءً</strong>، من <strong>الأحد إلى الخميس</strong>، وذلك وفق نظام العمل السعودي وسياسات الشركة الداخلية.</> },
             { n: "السادس", t: "مهام الوظيفة", body: (<ul className="tasks"><li>استقبال طلبات الدعم الفني ومعالجة المشكلات التقنية.</li><li>الرد على العملاء بشكل فوري خلال وقت الدوام.</li><li>تقديم الدعم الفني للمستخدمين وتوثيق الأعطال والحلول.</li><li>متابعة جميع الطلبات وعند حدوث مشكلة التواصل مع مدير الدعم الفني.</li><li>تنفيذ أي مهام أخرى ذات صلة يُكلَّف بها من قبل الإدارة.</li></ul>) },
-            { n: "السابع", t: "الإجازات",     body: "يستحق الموظف الإجازات النظامية (السنوية، المرضية، والرسمية) وفقاً لنظام العمل السعودي ولوائح الشركة المعتمدة." },
+            { n: "السابع", t: "الإجازات",     body: "يستحق الموظف الإجازات النظامية (السنوية، المرضية، والرسمية) وفقاً لنظام العمل السعودي ولوائح الشركة المعتمدة.", pageBreak: true },
             { n: "الثامن", t: "إنهاء العقد",  body: "يجوز لأي من الطرفين إنهاء هذا العقد بشرط تقديم إشعار خطي مسبق قبل أسبوع واحد على الأقل، مع تسوية جميع الحقوق والالتزامات المالية والنظامية المستحقة." },
           ] as { n: string; t: string; body: React.ReactNode; pageBreak?: boolean }[]).map((c) => (
             <div key={c.n} className={`clause${c.pageBreak ? " page-break" : ""}`}>
@@ -122,50 +122,60 @@ export default function EmployeeContractPrint() {
         <hr style={{ border: "none", borderTop: "2px solid #111", marginBottom: 20 }} />
 
         {/* ── التوقيعات ── */}
-        <div className="page-break" style={{ paddingTop: 48 }}>
+        <div style={{ paddingTop: 24 }}>
 
           <hr style={{ border: "none", borderTop: "2px solid #111", marginBottom: 24 }} />
 
-          <p style={{ fontWeight: 700, fontSize: 14, textAlign: "center", marginBottom: 28, letterSpacing: 3 }}>التوقيعات</p>
+          <p style={{ fontWeight: 700, fontSize: 16, textAlign: "center", marginBottom: 28, letterSpacing: 3 }}>التوقيعات</p>
 
           {/* صف التوقيعين */}
-          <div style={{ display: "flex", gap: 48, marginBottom: 48, fontSize: 13 }}>
+          <div style={{ display: "flex", gap: 48, marginBottom: 48, fontSize: 15 }}>
             <div style={{ flex: 1 }}>
               <p className="section-title" style={{ marginBottom: 16 }}>الطرف الأول &mdash; صاحب العمل</p>
               <p style={{ marginBottom: 6 }}>الاسم: &nbsp;<strong>مؤسسة سهلناها التقنية</strong></p>
               <p style={{ marginBottom: 28 }}>التاريخ: &nbsp;<span className="sig-line" style={{ minWidth: 160 }}>&nbsp;</span> م</p>
-              <p>التوقيع: &nbsp;<span className="sig-line" style={{ minWidth: 200 }}>&nbsp;</span></p>
+              <p style={{ marginBottom: 16 }}>التوقيع: &nbsp;<span className="sig-line" style={{ minWidth: 200 }}>&nbsp;</span></p>
+              <div style={{ textAlign: "center", marginTop: 8 }}>
+                {company.stamp ? (
+                  <img src={company.stamp} alt="stamp" style={{ width: 90, height: 90, objectFit: "contain" }} />
+                ) : (
+                  <div style={{ width: 90, height: 90, borderRadius: "50%", border: "2px solid #111", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: 10, lineHeight: 1.7, margin: "0 auto" }}>
+                    <span style={{ fontWeight: 700 }}>مؤسسة سهلناها</span>
+                    <span>التقنية</span>
+                    <span style={{ fontSize: 9 }}>7054284067</span>
+                  </div>
+                )}
+              </div>
             </div>
             <div style={{ flex: 1 }}>
               <p className="section-title" style={{ marginBottom: 16 }}>الطرف الثاني &mdash; الموظف</p>
               <p style={{ marginBottom: 6 }}>الاسم: &nbsp;<strong>{contract.employeeName}</strong></p>
               <p style={{ marginBottom: 28 }}>التاريخ: &nbsp;<span className="sig-line" style={{ minWidth: 160 }}>&nbsp;</span> م</p>
-              <p>التوقيع: &nbsp;<span className="sig-line" style={{ minWidth: 200 }}>&nbsp;</span></p>
+              <p style={{ marginBottom: 16 }}>التوقيع: &nbsp;<span className="sig-line" style={{ minWidth: 200 }}>&nbsp;</span></p>
             </div>
           </div>
 
           <hr style={{ border: "none", borderTop: "1px solid #111", marginBottom: 28 }} />
 
           {/* اعتماد + ختم */}
-          <div style={{ display: "flex", gap: 48, alignItems: "flex-start", fontSize: 13 }}>
+          <div style={{ display: "flex", gap: 48, alignItems: "flex-start", fontSize: 15 }}>
             <div style={{ flex: 1 }}>
               <p className="section-title" style={{ marginBottom: 16 }}>اعتماد صاحب العمل</p>
               <p style={{ marginBottom: 4 }}>اسم المنشأة: &nbsp;<strong>مؤسسة سهلناها التقنية</strong></p>
               <p style={{ marginBottom: 28 }}>السجل التجاري: &nbsp;<strong>7054284067</strong></p>
               <p style={{ marginBottom: 6 }}>التوقيع: &nbsp;<span className="sig-line" style={{ minWidth: 200 }}>&nbsp;</span></p>
-              <p>التاريخ: &nbsp;<span className="sig-line" style={{ minWidth: 160 }}>&nbsp;</span> م</p>
-            </div>
-            <div style={{ textAlign: "center", minWidth: 140 }}>
-              <p className="section-title" style={{ textAlign: "center", marginBottom: 16 }}>ختم الشركة</p>
-              {company.stamp ? (
-                <img src={company.stamp} alt="stamp" style={{ width: 120, height: 120, objectFit: "contain" }} />
-              ) : (
-                <div style={{ width: 120, height: 120, borderRadius: "50%", border: "2px solid #111", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: 11, lineHeight: 1.8, margin: "0 auto" }}>
-                  <span style={{ fontWeight: 700 }}>مؤسسة سهلناها</span>
-                  <span>التقنية</span>
-                  <span style={{ fontSize: 10 }}>7054284067</span>
-                </div>
-              )}
+              <p style={{ marginBottom: 16 }}>التاريخ: &nbsp;<span className="sig-line" style={{ minWidth: 160 }}>&nbsp;</span> م</p>
+              <div style={{ textAlign: "center", marginTop: 8 }}>
+                {company.stamp ? (
+                  <img src={company.stamp} alt="stamp" style={{ width: 90, height: 90, objectFit: "contain" }} />
+                ) : (
+                  <div style={{ width: 90, height: 90, borderRadius: "50%", border: "2px solid #111", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: 10, lineHeight: 1.7, margin: "0 auto" }}>
+                    <span style={{ fontWeight: 700 }}>مؤسسة سهلناها</span>
+                    <span>التقنية</span>
+                    <span style={{ fontSize: 9 }}>7054284067</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
