@@ -183,7 +183,7 @@ export default function EmployeeContractPrint() {
       </div>{/* end body */}
 
       {/* ── FOOTER IMAGE ── */}
-      {company.footer && <img src={company.footer} alt="footer" style={{ width: "100%", display: "block" }} />}
+      <img src="/contract.webp" alt="footer" style={{ width: "100%", display: "block" }} />
 
     </div>
   );
