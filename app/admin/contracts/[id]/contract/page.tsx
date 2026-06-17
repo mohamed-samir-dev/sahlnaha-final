@@ -133,13 +133,13 @@ export default function EmployeeContractPrint() {
             <div style={{ flex: 1 }}>
               <p className="section-title" style={{ marginBottom: 16 }}>الطرف الأول &mdash; صاحب العمل</p>
               <p style={{ marginBottom: 6 }}>الاسم: &nbsp;<strong>مؤسسة سهلناها التقنية</strong></p>
-              <p style={{ marginBottom: 28 }}>التاريخ: &nbsp;<span className="sig-line" style={{ minWidth: 160 }}>&nbsp;</span> م</p>
-              <p style={{ marginBottom: 16 }}>التوقيع: &nbsp;<span className="sig-line" style={{ minWidth: 200 }}>&nbsp;</span></p>
-              <div style={{ textAlign: "center", marginTop: 8 }}>
+              <p style={{ marginBottom: 16 }}>التاريخ: &nbsp;<span className="sig-line" style={{ minWidth: 160 }}>&nbsp;</span> م</p>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
+                <span style={{ fontWeight: 700 }}>التوقيع:</span>
                 {company.stamp ? (
-                  <img src={company.stamp} alt="stamp" style={{ width: 90, height: 90, objectFit: "contain" }} />
+                  <img src={company.stamp} alt="stamp" style={{ width: 80, height: 80, objectFit: "contain" }} />
                 ) : (
-                  <div style={{ width: 90, height: 90, borderRadius: "50%", border: "2px solid #111", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: 10, lineHeight: 1.7, margin: "0 auto" }}>
+                  <div style={{ width: 80, height: 80, borderRadius: "50%", border: "2px solid #111", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: 10, lineHeight: 1.7 }}>
                     <span style={{ fontWeight: 700 }}>مؤسسة سهلناها</span>
                     <span>التقنية</span>
                     <span style={{ fontSize: 9 }}>7054284067</span>
@@ -162,14 +162,13 @@ export default function EmployeeContractPrint() {
             <div style={{ flex: 1 }}>
               <p className="section-title" style={{ marginBottom: 16 }}>اعتماد صاحب العمل</p>
               <p style={{ marginBottom: 4 }}>اسم المنشأة: &nbsp;<strong>مؤسسة سهلناها التقنية</strong></p>
-              <p style={{ marginBottom: 28 }}>السجل التجاري: &nbsp;<strong>7054284067</strong></p>
-              <p style={{ marginBottom: 6 }}>التوقيع: &nbsp;<span className="sig-line" style={{ minWidth: 200 }}>&nbsp;</span></p>
-              <p style={{ marginBottom: 16 }}>التاريخ: &nbsp;<span className="sig-line" style={{ minWidth: 160 }}>&nbsp;</span> م</p>
-              <div style={{ textAlign: "center", marginTop: 8 }}>
+              <p style={{ marginBottom: 16 }}>السجل التجاري: &nbsp;<strong>7054284067</strong></p>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
+                <span style={{ fontWeight: 700 }}>التوقيع:</span>
                 {company.stamp ? (
-                  <img src={company.stamp} alt="stamp" style={{ width: 90, height: 90, objectFit: "contain" }} />
+                  <img src={company.stamp} alt="stamp" style={{ width: 80, height: 80, objectFit: "contain" }} />
                 ) : (
-                  <div style={{ width: 90, height: 90, borderRadius: "50%", border: "2px solid #111", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: 10, lineHeight: 1.7, margin: "0 auto" }}>
+                  <div style={{ width: 80, height: 80, borderRadius: "50%", border: "2px solid #111", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontSize: 10, lineHeight: 1.7 }}>
                     <span style={{ fontWeight: 700 }}>مؤسسة سهلناها</span>
                     <span>التقنية</span>
                     <span style={{ fontSize: 9 }}>7054284067</span>

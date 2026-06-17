@@ -15,7 +15,7 @@ type Contract = {
   createdAt: string;
 };
 
-const empty = { employeeName: "", nationalId: "", nationality: "", birthDate: "", contractDuration: 1, startDate: "", endDate: "", contractDate: "" };
+const empty = { contractDuration: 1, startDate: "", endDate: "" };
 
 function calcEndDate(startDate: string, duration: number) {
   if (!startDate || !duration) return "";
@@ -48,14 +48,9 @@ export default function ContractsPage() {
 
   function openEdit(c: Contract) {
     setForm({
-      employeeName: c.employeeName,
-      nationalId: c.nationalId,
-      nationality: c.nationality || "",
-      birthDate: c.birthDate,
       contractDuration: c.contractDuration,
       startDate: c.startDate,
       endDate: c.endDate,
-      contractDate: c.contractDate,
     });
     setEditing(c._id);
     setShowForm(true);
@@ -162,31 +157,6 @@ export default function ContractsPage() {
               </button>
             </div>
             <form onSubmit={submit} className="px-6 py-4 flex flex-col gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">اسم الموظف</label>
-                <input required value={form.employeeName} onChange={e => setForm(p => ({ ...p, employeeName: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="الاسم الكامل" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">رقم الهوية / الإقامة</label>
-                <input required value={form.nationalId} onChange={e => setForm(p => ({ ...p, nationalId: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="رقم الهوية" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">الجنسية</label>
-                <input required value={form.nationality} onChange={e => setForm(p => ({ ...p, nationality: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="مثال: سعودي، مصري" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">تاريخ الميلاد</label>
-                <input required type="date" value={form.birthDate} onChange={e => setForm(p => ({ ...p, birthDate: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">تاريخ إبرام العقد</label>
-                <input required type="date" value={form.contractDate} onChange={e => setForm(p => ({ ...p, contractDate: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">مدة العقد (سنوات)</label>
                 <input required type="number" min={1} value={form.contractDuration} onChange={e => {
