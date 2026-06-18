@@ -15,7 +15,7 @@ type Contract = {
   createdAt: string;
 };
 
-const empty = { contractDuration: 1, startDate: "", endDate: "" };
+const empty = { contractDuration: 1, startDate: "", endDate: "", contractDate: "" };
 
 function calcEndDate(startDate: string, duration: number) {
   if (!startDate || !duration) return "";
@@ -51,6 +51,7 @@ export default function ContractsPage() {
       contractDuration: c.contractDuration,
       startDate: c.startDate,
       endDate: c.endDate,
+      contractDate: c.contractDate ?? "",
     });
     setEditing(c._id);
     setShowForm(true);
@@ -174,6 +175,11 @@ export default function ContractsPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">تاريخ انتهاء العقد</label>
                 <input required type="date" value={form.endDate} onChange={e => setForm(p => ({ ...p, endDate: e.target.value }))}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">تاريخ إبرام العقد</label>
+                <input type="date" value={form.contractDate} onChange={e => setForm(p => ({ ...p, contractDate: e.target.value }))}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               </div>
               <div className="flex gap-3 pt-2">

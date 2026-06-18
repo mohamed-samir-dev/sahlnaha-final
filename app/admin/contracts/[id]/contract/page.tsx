@@ -133,7 +133,7 @@ export default function EmployeeContractPrint() {
             <div style={{ flex: 1 }}>
               <p className="section-title" style={{ marginBottom: 16 }}>الطرف الأول &mdash; صاحب العمل</p>
               <p style={{ marginBottom: 6 }}>الاسم: &nbsp;<strong>مؤسسة سهلناها التقنية</strong></p>
-              <p style={{ marginBottom: 16 }}>التاريخ: &nbsp;<span className="sig-line" style={{ minWidth: 160 }}>&nbsp;</span> م</p>
+              <p style={{ marginBottom: 16 }}>التاريخ: &nbsp;<strong>{contract.contractDate ? formatDate(contract.contractDate) : <span className="sig-line" style={{ minWidth: 160 }}>&nbsp;</span>}</strong> م</p>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
                 <span style={{ fontWeight: 700 }}>التوقيع:</span>
                 {company.stamp ? (
