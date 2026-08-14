@@ -5,6 +5,7 @@ import ProductCard from "./ProductCard";
 import type { Product } from "./types";
 import CategoryBanner from "../banner/CategoryBanner";
 import { slugConfigs } from "../../lib/categoryConfig";
+import { fetchAllProducts } from "../../lib/productsCache";
 
 const LIMIT = 4;
 
@@ -118,32 +119,49 @@ function CategoryRow({ category, items, isFirst }: { category: string; items: Pr
 type HomeSettings = { category: string; subCategory: string; showInHome: boolean; order: number };
 type HomeConfig = { settings: HomeSettings[]; max: number };
 
+// Sub-categories config cache (separate from products cache)
+const _configCache: { data: HomeConfig | null; fetchedAt: number } = { data: null, fetchedAt: 0 };
+const _bannerCache: { data: Record<string, string[]>; fetchedAt: number } = { data: {}, fetchedAt: 0 };
+const CACHE_TTL = 5 * 60 * 1000;
+
 export default function ProductGrid() {
+  const configFresh = Date.now() - _configCache.fetchedAt < CACHE_TTL && _configCache.data !== null;
   const [products, setProducts] = useState<Product[]>([]);
-  const [homeConfig, setHomeConfig] = useState<HomeConfig | null>(null);
-  const [bannerMap, setBannerMap] = useState<Record<string, string[]>>({});
+  const [homeConfig, setHomeConfig] = useState<HomeConfig | null>(configFresh ? _configCache.data : null);
+  const [bannerMap, setBannerMap] = useState<Record<string, string[]>>(_bannerCache.data);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      fetch(`/api/products`).then((r) => r.json()),
-      fetch("/api/sub-categories-home").then((r) => r.json()).catch(() => ({ settings: [], max: 4 })),
-    ])
+    const configPromise = configFresh
+      ? Promise.resolve(_configCache.data!)
+      : fetch("/api/sub-categories-home").then((r) => r.json()).catch(() => ({ settings: [], max: 4 }));
+
+    Promise.all([fetchAllProducts(), configPromise])
       .then(([prods, config]) => {
+        const cfg = Array.isArray(config) ? { settings: config, max: 4 } : config;
         setProducts(prods);
-        setHomeConfig(Array.isArray(config) ? { settings: config, max: 4 } : config);
-        // Fetch all category banners in one bulk call
-        const cats = [...new Set((prods as Product[]).map((p) => p.category).filter(Boolean))];
-        if (cats.length) {
-          fetch(`/api/admin/category-banners-bulk?categories=${encodeURIComponent(cats.join(","))}`)
-            .then((r) => r.json())
-            .then((data) => { if (data && typeof data === "object") setBannerMap(data); })
-            .catch(() => {});
+        setHomeConfig(cfg);
+        if (!configFresh) { _configCache.data = cfg; _configCache.fetchedAt = Date.now(); }
+        const bannerFresh = Date.now() - _bannerCache.fetchedAt < CACHE_TTL && Object.keys(_bannerCache.data).length > 0;
+        if (!bannerFresh) {
+          const cats = [...new Set((prods as Product[]).map((p) => p.category).filter(Boolean))];
+          if (cats.length) {
+            fetch(`/api/admin/category-banners-bulk?categories=${encodeURIComponent(cats.join(","))}`)
+              .then((r) => r.json())
+              .then((data) => {
+                if (data && typeof data === "object") {
+                  setBannerMap(data);
+                  _bannerCache.data = data;
+                  _bannerCache.fetchedAt = Date.now();
+                }
+              })
+              .catch(() => {});
+          }
         }
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, []);
+  }, [configFresh]);
 
   const grouped = useMemo(() => {
     const map: Record<string, Product[]> = {};

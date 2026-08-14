@@ -2,21 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ClientLayout from "./components/ClientLayout";
 import Footer from "./components/Footer";
+import { getCachedCompany } from "./lib/cache";
 
-const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
+const BACKEND = (process.env.BACKEND_URL || "http://localhost:5000").replace(/\/$/, "");
 const SITE_URL = "https://sahlnahastore.com";
 
-async function getCompany() {
-  try {
-    const r = await fetch(`${BACKEND}/api/admin/company`, { next: { revalidate: 3600, tags: ["company"] } });
-    return r.ok ? r.json() : {};
-  } catch {
-    return {};
-  }
-}
+export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const c = await getCompany();
+  const c = await getCachedCompany();
 
   const siteName = c.nameAr || "مؤسسة سهلناها التقنية";
   const description = c.details || "مؤسسة سهلناها التقنية - أجهزة إلكترونية بالأقساط داخل المملكة العربية السعودية. أفضل الأسعار على الجوالات، اللابتوبات، الأجهزة اللوحية والإكسسوارات.";

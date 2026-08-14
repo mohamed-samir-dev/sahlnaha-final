@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
 import SmartphonesClient from "./SmartphonesClient";
+import { getCachedCompany } from "../../lib/cache";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
-const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
+const BACKEND = (process.env.BACKEND_URL || "http://localhost:5000").replace(/\/$/, "");
 const SITE_URL = "https://sahlnahastore.com";
 
-async function getCompany() {
-  try {
-    const r = await fetch(`${BACKEND}/api/admin/company`, { next: { revalidate: 3600 } });
-    return r.ok ? r.json() : {};
-  } catch {
-    return {};
-  }
-}
-
 export async function generateMetadata(): Promise<Metadata> {
-  const company = await getCompany();
+  const company = await getCachedCompany();
   const siteName = company.nameAr || "مؤسسة سهلناها التقنية";
   const title = `الهواتف الذكية | ${siteName}`;
   const description = `تسوق أحدث الهواتف الذكية بأفضل الأسعار وبالأقساط في ${siteName}. آيفون، سامسونج، شاومي وأكثر.`;

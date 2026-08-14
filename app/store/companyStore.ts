@@ -15,7 +15,7 @@ interface CompanyStore {
   setLogo: (url: string) => void;
 }
 
-export const useCompanyStore = create<CompanyStore>((set) => ({
+export const useCompanyStore = create<CompanyStore>((set, get) => ({
   logo: "",
   nameAr: "",
   nameEn: "",
@@ -25,6 +25,8 @@ export const useCompanyStore = create<CompanyStore>((set) => ({
   website: "",
   details: "",
   fetchCompany: async () => {
+    // Skip if already loaded
+    if (get().nameAr) return;
     try {
       const res = await fetch(`/api/admin/company`, { credentials: "include" });
       if (!res.ok) return;

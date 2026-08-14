@@ -1,25 +1,17 @@
 import type { Metadata } from "next";
 import { slugConfigs } from "../../lib/categoryConfig";
 import CategoryPageClient from "./CategoryPageClient";
+import { getCachedCompany } from "../../lib/cache";
 
-export const dynamic = "force-dynamic";
-
-const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
 const SITE_URL = "https://sahlnahastore.com";
+const BACKEND = (process.env.BACKEND_URL || "http://localhost:5000").replace(/\/$/, "");
 
-async function getCompany() {
-  try {
-    const r = await fetch(`${BACKEND}/api/admin/company`, { next: { revalidate: 3600 } });
-    return r.ok ? r.json() : {};
-  } catch {
-    return {};
-  }
-}
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const config = slugConfigs[slug];
-  const company = await getCompany();
+  const company = await getCachedCompany();
 
   const siteName = company.nameAr || "مؤسسة سهلناها التقنية";
   const label = config?.label ?? slug;

@@ -9,5 +9,10 @@ export async function GET(req: NextRequest) {
   if (brand) params.set("brand", brand);
   const res = await fetch(`${getBackend()}/api/products?${params.toString()}`, forwardCookies(req, { method: "GET" }));
   const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
+  const response = NextResponse.json(data, { status: res.status });
+  // Search queries are dynamic; plain product list can be cached by browser/CDN
+  if (!q) {
+    response.headers.set("Cache-Control", "public, s-maxage=300, stale-while-revalidate=3600");
+  }
+  return response;
 }

@@ -9,6 +9,7 @@ import { slugConfigs } from "../../lib/categoryConfig";
 import { IoChevronBack, IoChevronForward, IoHomeOutline } from "react-icons/io5";
 import { HiOutlineSparkles } from "react-icons/hi2";
 import { BsGrid3X3GapFill } from "react-icons/bs";
+import { fetchAllProducts } from "../../lib/productsCache";
 
 const normalizeAr = (s: string) =>
   s.trim().toLowerCase().replace(/[أإآٱ]/g, "ا").replace(/[ؤ]/g, "و").replace(/[ئ]/g, "ي").replace(/ة/g, "ه").replace(/\s+/g, " ");
@@ -31,7 +32,6 @@ function filterProducts(products: Product[], slug: string): Product[] {
 }
 
 
-
 export default function CategoryPageClient({ slug }: { slug: string }) {
   const config = slugConfigs[slug];
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,10 +42,7 @@ export default function CategoryPageClient({ slug }: { slug: string }) {
 
   useEffect(() => {
     if (!config) return;
-    const brand = config.filters.brand ?? "";
-    const query = brand ? `?brand=${encodeURIComponent(brand)}` : "";
-    fetch(`/api/products${query}`)
-      .then((r) => r.json())
+    fetchAllProducts()
       .then((data: Product[]) => {
         const filtered = filterProducts(data, slug);
         const parseStorage = (s?: string) => {

@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import CategoryLayout from "../../components/products/CategoryLayout";
 import type { Product } from "../../components/products/types";
+import { fetchAllProducts } from "../../lib/productsCache";
 
 export default function SmartphonesClient() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/products`)
-      .then((r) => r.json())
+    fetchAllProducts()
       .then((data: Product[]) => {
         const filtered = data.filter((p) =>
           p.category?.includes("ايفون") ||

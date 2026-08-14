@@ -1,34 +1,17 @@
 import type { Metadata } from "next";
 import ProductPageClient from "./ProductPageClient";
+import { getCachedCompany, getCachedProduct } from "../../lib/cache";
 
-const BACKEND = process.env.BACKEND_URL || "http://localhost:5000";
+export const revalidate = 3600;
+
+const BACKEND = (process.env.BACKEND_URL || "http://localhost:5000").replace(/\/$/, "");
 const SITE_URL = "https://sahlnahastore.com";
-
-async function getProduct(id: string) {
-  try {
-    const r = await fetch(`${BACKEND}/api/products/${id}`, { next: { revalidate: 3600 } });
-    return r.ok ? r.json() : null;
-  } catch {
-    return null;
-  }
-}
-
-async function getCompany() {
-  try {
-    const r = await fetch(`${BACKEND}/api/admin/company`, { next: { revalidate: 3600 } });
-    return r.ok ? r.json() : {};
-  } catch {
-    return {};
-  }
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const [product, company] = await Promise.all([getProduct(id), getCompany()]);
+  const [product, company] = await Promise.all([getCachedProduct(id), getCachedCompany()]);
 
-  if (!product) {
-    return { title: "المنتج غير موجود" };
-  }
+  if (!product) return { title: "المنتج غير موجود" };
 
   const siteName = company.nameAr || "مؤسسة سهلناها التقنية";
   const title = product.name;
@@ -37,10 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (product.brand) parts.push(product.brand);
   if (product.storage) parts.push(product.storage);
   if (product.color) parts.push(product.color);
-  if (product.salePrice || product.price) {
-    const price = product.salePrice || product.price;
-    parts.push(`${price} ريال`);
-  }
+  if (product.salePrice || product.price) parts.push(`${product.salePrice || product.price} ريال`);
   if (product.installment?.available) parts.push("بالأقساط");
 
   const description = product.description
@@ -54,12 +34,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   return {
     title,
     description,
-    keywords: [
-      product.name,
-      product.brand || "",
-      product.category || "",
-      "أقساط", "شراء", "السعودية", siteName,
-    ].filter(Boolean),
+    keywords: [product.name, product.brand || "", product.category || "", "أقساط", "شراء", "السعودية", siteName].filter(Boolean),
     openGraph: {
       type: "website",
       url: `${SITE_URL}/product/${id}`,
@@ -75,15 +50,13 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       description,
       images: imageUrl ? [imageUrl] : [],
     },
-    alternates: {
-      canonical: `${SITE_URL}/product/${id}`,
-    },
+    alternates: { canonical: `${SITE_URL}/product/${id}` },
   };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [product, company] = await Promise.all([getProduct(id), getCompany()]);
+  const [product, company] = await Promise.all([getCachedProduct(id), getCachedCompany()]);
 
   const siteName = company.nameAr || "مؤسسة سهلناها التقنية";
   const price = product?.salePrice || product?.price || 0;
@@ -102,10 +75,8 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
       "@type": "Offer",
       url: `${SITE_URL}/product/${id}`,
       priceCurrency: "SAR",
-      price: price,
-      availability: product.inStock
-        ? "https://schema.org/InStock"
-        : "https://schema.org/OutOfStock",
+      price,
+      availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       seller: { "@type": "Organization", name: siteName },
     },
   } : null;

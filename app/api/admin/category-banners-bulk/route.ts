@@ -5,8 +5,10 @@ export async function GET(req: NextRequest) {
   const categories = req.nextUrl.searchParams.get("categories") || "";
   const res = await fetch(
     `${getBackend()}/api/admin/category-banners-bulk?categories=${encodeURIComponent(categories)}`,
-    { cache: "no-store" }
+    { next: { revalidate: 3600 } }
   );
   const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
+  const response = NextResponse.json(data, { status: res.status });
+  response.headers.set("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
+  return response;
 }

@@ -12,6 +12,9 @@ interface Review {
   createdAt: string;
 }
 
+let _reviewsCache: { data: Review[]; fetchedAt: number } | null = null;
+const REVIEWS_TTL = 10 * 60 * 1000;
+
 function StarRating({ rating, size = 16 }: { rating: number; size?: number }) {
   return (
     <div className="flex gap-0.5">
@@ -49,9 +52,18 @@ export default function CustomerReviews() {
   const [selected, setSelected] = useState<Review | null>(null);
 
   useEffect(() => {
+    if (_reviewsCache && Date.now() - _reviewsCache.fetchedAt < REVIEWS_TTL) {
+      setReviews(_reviewsCache.data);
+      return;
+    }
     fetch("/api/reviews")
       .then((r) => r.json())
-      .then((data) => Array.isArray(data) && setReviews(data))
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setReviews(data);
+          _reviewsCache = { data, fetchedAt: Date.now() };
+        }
+      })
       .catch(() => {});
   }, []);
 
@@ -68,6 +80,7 @@ export default function CustomerReviews() {
       setSubmitted(true);
       setShowForm(false);
       setForm({ name: "", comment: "", rating: 5 });
+      _reviewsCache = null; // invalidate so next visit re-fetches
     } catch {}
     setSubmitting(false);
   }
@@ -106,28 +119,19 @@ export default function CustomerReviews() {
                     onClick={() => setSelected(r)}
                     className="relative bg-white rounded-2xl overflow-hidden shadow-sm border border-[#06399B]/8 hover:shadow-[0_8px_30px_rgba(6,57,155,0.12)] hover:-translate-y-1 transition-all duration-200 cursor-pointer flex flex-col group"
                   >
-                    {/* Top accent bar */}
                     <div className="h-1 w-full bg-gradient-to-l from-[#06399B] to-[#06399B]" />
-
                     <div className="p-5 flex flex-col gap-3 flex-1">
-                      {/* Quote + Stars row */}
                       <div className="flex items-start justify-between">
                         <div className="w-8 h-8 rounded-lg bg-[#06399B]/8 flex items-center justify-center">
                           <Quote size={16} className="text-[#06399B] fill-[#06399B]" />
                         </div>
                         <StarRating rating={r.rating} />
                       </div>
-
-                      <p className="text-gray-600 text-sm leading-relaxed flex-1 line-clamp-3">
-                        {r.comment}
-                      </p>
-
+                      <p className="text-gray-600 text-sm leading-relaxed flex-1 line-clamp-3">{r.comment}</p>
                       {r.comment.length > 120 && (
                         <span className="text-[#06399B] text-xs font-semibold">اقرأ المزيد ←</span>
                       )}
-
                       <div className="h-px bg-gradient-to-l from-[#06399B]/10 via-[#7CC043]/20 to-transparent" />
-
                       <div className="flex items-center gap-3">
                         <Avatar name={r.name} gender={r.gender} />
                         <div>
@@ -143,7 +147,6 @@ export default function CustomerReviews() {
               </AnimatePresence>
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-3 mt-8">
                 <button
@@ -176,7 +179,6 @@ export default function CustomerReviews() {
           <p className="text-center text-gray-400 text-sm mb-6">لا توجد آراء بعد، كن أول من يعلق!</p>
         )}
 
-        {/* Add Review Button */}
         <div className="flex justify-center mt-8">
           {submitted ? (
             <div className="flex items-center gap-2 text-sm text-[#7CC043] font-semibold bg-[#f0f9e8] border border-[#7CC043]/40 px-5 py-2.5 rounded-full">
@@ -193,7 +195,6 @@ export default function CustomerReviews() {
           )}
         </div>
 
-        {/* Form */}
         <AnimatePresence>
           {showForm && (
             <motion.form
@@ -204,18 +205,15 @@ export default function CustomerReviews() {
               onSubmit={handleSubmit}
               className="mt-5 max-w-lg mx-auto rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(6,57,155,0.12)] border border-[#06399B]/10"
             >
-              {/* Form Header */}
               <div className="bg-gradient-to-l from-[#06399B] to-[#3258B1] px-5 py-4 flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
                   <Star size={15} className="fill-white text-white" />
                 </div>
                 <p className="text-white font-bold text-sm">شاركنا رأيك</p>
               </div>
-
               <div className="bg-white p-5 flex flex-col gap-4">
-                {/* Name */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-[#06399B]" >الاسم</label>
+                  <label className="text-xs font-bold text-[#06399B]">الاسم</label>
                   <input
                     type="text"
                     placeholder="اكتب اسمك هنا"
@@ -225,8 +223,6 @@ export default function CustomerReviews() {
                     required
                   />
                 </div>
-
-                {/* Comment */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-bold text-[#06399B]">تعليقك</label>
                   <textarea
@@ -238,8 +234,6 @@ export default function CustomerReviews() {
                     required
                   />
                 </div>
-
-                {/* Rating */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-bold text-[#06399B]">تقييمك</label>
                   <div className="flex items-center gap-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5">
@@ -249,12 +243,10 @@ export default function CustomerReviews() {
                       </button>
                     ))}
                     <span className="mr-2 text-xs text-gray-400 font-medium">
-                      {["" ,"ضعيف", "مقبول", "جيد", "جيد جداً", "ممتاز"][form.rating]}
+                      {["", "ضعيف", "مقبول", "جيد", "جيد جداً", "ممتاز"][form.rating]}
                     </span>
                   </div>
                 </div>
-
-                {/* Submit */}
                 <button
                   type="submit"
                   disabled={submitting}
@@ -269,7 +261,6 @@ export default function CustomerReviews() {
         </AnimatePresence>
       </div>
 
-      {/* Modal */}
       <AnimatePresence>
         {selected && (
           <motion.div
