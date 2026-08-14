@@ -121,12 +121,12 @@ export default function CustomerForm({ total, itemCount, initialData, installmen
             </div>
             <div ref={(el) => { fieldRefs.current.nationalId = el; }}>
               <Field label="رقم الهوية / الإقامة" icon={<IoCardOutline size={11} />} error={errors.nationalId}>
-                <input value={nationalId} onChange={(e) => { setNationalId(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, nationalId: "" })); }} placeholder="1XXXXXXXXX" maxLength={10} className={inputClass("nationalId")} />
+                <input value={nationalId} onChange={(e) => { setNationalId(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, nationalId: "" })); }} onKeyDown={(e) => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab/.test(e.key)) e.preventDefault(); }} placeholder="1XXXXXXXXX" maxLength={10} inputMode="numeric" pattern="[0-9]*" className={inputClass("nationalId")} />
               </Field>
             </div>
             <div ref={(el) => { fieldRefs.current.whatsapp = el; }}>
               <Field label="رقم الواتساب" icon={<IoCallOutline size={11} />} error={errors.whatsapp}>
-                <input type="tel" value={whatsapp} onChange={(e) => { setWhatsapp(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, whatsapp: "" })); }} placeholder="05XXXXXXXX" className={inputClass("whatsapp")} />
+                <input type="tel" inputMode="numeric" pattern="[0-9]*" value={whatsapp} onChange={(e) => { setWhatsapp(e.target.value.replace(/[^0-9]/g, "").slice(0, 10)); setErrors((p) => ({ ...p, whatsapp: "" })); }} onKeyDown={(e) => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab/.test(e.key)) e.preventDefault(); }} placeholder="05XXXXXXXX" className={inputClass("whatsapp")} />
               </Field>
             </div>
             <div ref={(el) => { fieldRefs.current.address = el; }}>

